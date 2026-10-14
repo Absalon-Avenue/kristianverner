@@ -37,7 +37,7 @@ const omtale = (await getCollection('omtale')).sort((a, b) => a.data.raekkefoelg
       <div class="ramme kontakt">
         {o.fakta?.length > 0 && (
           <div>
-            <p class="maerke" style="margin-bottom:26px">Kort</p>
+            <p class="maerke" style="margin-bottom:26px">Kort fortalt</p>
             <ul class="fakta">
               {o.fakta.map((r: any) => (<li><span class="aar">{r.aar}</span><span>{r.tekst}</span></li>))}
             </ul>

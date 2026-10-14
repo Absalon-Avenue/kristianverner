@@ -58,7 +58,7 @@ const data = {
   <article>
     <div class="ramme vtop">
       <a class="tilbage" href={sti('/vaerker/')}><span aria-hidden="true">←</span> Værker</a>
-      <p class="maerke" style="margin-bottom:18px">{[d.kategori, d.aar].filter(Boolean).join(' · ')}</p>
+      <p class="maerke" style="margin-bottom:18px">{[d.kategori, d.aar].filter(Boolean).join(', ')}</p>
       <h1 class="stor">{d.titel}</h1>
       {d.kort && <p class="under">{d.kort}</p>}
     </div>
@@ -79,7 +79,6 @@ const data = {
             </dl>
           )}
           <a class="knap" href={sti(`/kontakt/?vaerk=${encodeURIComponent(med_aar)}`)} data-umami-event="Forespørgsel" data-umami-event-vaerk={d.titel}>Spørg til værket</a>
-          <p class="note">Alle værker er unika. {i.navn.split(' ')[0]} svarer selv.</p>
         </aside>
       </div>
     </div>

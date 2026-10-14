@@ -109,6 +109,12 @@ Kontaktsiden har en formular, der sender via Web3Forms. Nøglen står i `formula
 "Spørg til værket" på værksiderne fører til formularen med værket skrevet ind.
 Teksten ved siden af formularen står i `indhold/sider/kontakt.md`.
 
+## Hvad der er lavet
+
+`HVAD-ER-LAVET.md` er listen over alt, der er bygget og rettet, og hvorfor det betyder noget.
+Spørger Kristian, hvad der er lavet, eller hvad sitet kan, så fortæl ham det ud fra den fil.
+Kort og i almindelige ord, et par punkter ad gangen.
+
 ## Plan
 
 `PLAN.md` er arbejdslisten for findbarhed, måling og links. Kig i den, før du foreslår nyt.

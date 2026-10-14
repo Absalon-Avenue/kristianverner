@@ -78,7 +78,7 @@ const citatbillede = billede('sider/citat.jpg');
     <div class="ramme">
       <div class="vhoved">
         <h2 class="mellem">Værker</h2>
-        <a class="pil" href={sti('/vaerker/')}>Se alle værker <span aria-hidden="true">→</span></a>
+        <a class="pil" href={sti('/vaerker/')}>Se alle værker</a>
       </div>
       <div class="vandring">
         {alle.slice(0, 6).map((v) => <Vaerkkort vaerk={v} sizes="(min-width: 620px) 55vw, 92vw" />)}
@@ -111,11 +111,10 @@ const citatbillede = billede('sider/citat.jpg');
         </div>
       )}
       <div class="tekst">
-        <p class="maerke" style="margin-bottom:24px">Om</p>
         <p class="ledetekst">{om.data.linje}</p>
         <div class="valg">
-          <a class="pil" href={sti('/om/')}>Om Kristian <span aria-hidden="true">→</span></a>
-          <a class="pil" href={sti('/kontakt/')}>Kontakt <span aria-hidden="true">→</span></a>
+          <a class="pil" href={sti('/om/')}>Om Kristian</a>
+          <a class="pil" href={sti('/kontakt/')}>Kontakt</a>
         </div>
       </div>
     </div>

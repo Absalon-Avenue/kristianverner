@@ -9,13 +9,13 @@
   --dyb: #100e0a;         /* de mørke felter */
   --tekst: #3d3931;       /* brødtekst */
   --daempet: #6f6a5f;     /* små oplysninger */
-  --messing: #86651f;     /* accent på lys baggrund */
-  --messinglys: #cba97a;  /* accent på mørk baggrund */
+  --messing: #766b5e;     /* accent på lys baggrund: varm stengrå */
+  --messinglys: #c4bdb2;  /* accent på mørk baggrund: lys sten */
   --linje: #e2dcd1;
   --linjemoerk: #2b2721;
 
-  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --sans: "Jost Variable", Jost, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --serif: "Albert Sans Variable", "Albert Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sans: "Albert Sans Variable", "Albert Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   --kant: clamp(20px, 4.4vw, 60px);   /* luft ud til skærmkanten */
   --bredde: 1320px;
@@ -36,9 +36,9 @@ body {
   background: var(--bone);
   color: var(--tekst);
   font-family: var(--sans);
-  font-weight: 300;
+  font-weight: 350;
   font-size: 17px;
-  line-height: 1.75;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -81,19 +81,19 @@ a {
 }
 .maerke {
   margin: 0;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  text-transform: none;
   color: var(--messing);
 }
 .stor {
   margin: 0;
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(38px, 5.4vw, 80px);
-  line-height: 1.02;
-  letter-spacing: -0.012em;
+  font-size: clamp(34px, 4.4vw, 66px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -101,9 +101,9 @@ a {
   margin: 0;
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(30px, 3.6vw, 50px);
-  line-height: 1.1;
-  letter-spacing: -0.008em;
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -116,10 +116,10 @@ a {
   color: var(--ink);
   background: transparent;
   text-decoration: none;
-  font-size: 11.5px;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 450;
+  letter-spacing: 0.005em;
+  text-transform: none;
   transition: background 0.35s, color 0.35s;
 }
 .knap:hover {
@@ -132,10 +132,10 @@ a {
   gap: 10px;
   color: var(--ink);
   text-decoration: none;
-  font-size: 11.5px;
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 450;
+  letter-spacing: 0.005em;
+  text-transform: none;
   padding-bottom: 6px;
   border-bottom: 1px solid var(--linje);
   transition: border-color 0.3s, color 0.3s;
@@ -319,9 +319,9 @@ a {
   margin: 16px 0 0;
   font-family: var(--serif);
   font-weight: 300;
-  font-size: clamp(52px, 9.4vw, 148px);
-  line-height: 0.92;
-  letter-spacing: -0.02em;
+  font-size: clamp(44px, 7.6vw, 118px);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
   color: #fff;
 }
 .helt .billedtekst {
@@ -329,11 +329,11 @@ a {
   max-width: 24ch;
   margin: 0 0 6px;
   text-align: right;
-  font-size: 11px;
+  font-size: 13.5px;
   font-weight: 400;
-  letter-spacing: 0.2em;
-  line-height: 1.9;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 1.6;
+  text-transform: none;
   color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
   transition: color 0.3s;
@@ -379,6 +379,30 @@ a {
 .lydknap[aria-pressed="true"] .slukket { display: none; }
 .helt .indhold { padding-right: calc(var(--kant) + 60px); }
 
+/* Toppen af forsiden beholder den oprindelige stil: navnet i Cormorant,
+   linjen over i spærrede versaler i champagne, billedteksten i versaler. */
+.helt h1 {
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-weight: 300;
+  font-size: clamp(52px, 9.4vw, 148px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+.helt .maerke {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #cba97a;
+}
+.helt .billedtekst {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  line-height: 1.9;
+  text-transform: uppercase;
+}
+
 /* ---------- citat og skitse ---------- */
 .aabning {
   display: grid;
@@ -390,19 +414,20 @@ a {
   margin: 26px 0 0;
   font-family: var(--serif);
   font-weight: 300;
-  font-style: italic;
-  font-size: clamp(27px, 3.3vw, 46px);
-  line-height: 1.3;
+  font-style: normal;
+  font-size: clamp(23px, 2.6vw, 36px);
+  line-height: 1.32;
+  letter-spacing: -0.015em;
   color: var(--ink);
   text-wrap: balance;
 }
 .citat .kilde {
   margin: 30px 0 0;
-  font-size: 11.5px;
+  font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.005em;
   line-height: 1.9;
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--daempet);
 }
 .citat .kilde a {
@@ -539,8 +564,9 @@ a {
   transition: color 0.3s;
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(24px, 2.1vw, 31px);
-  line-height: 1.15;
+  font-size: clamp(19px, 1.6vw, 23px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   color: var(--ink);
 }
 .vkort .aar {
@@ -552,10 +578,10 @@ a {
 }
 .vkort .slags {
   margin: 6px 0 0;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  text-transform: none;
   color: var(--daempet);
 }
 
@@ -588,8 +614,9 @@ a {
 .moerk .citat blockquote {
   color: #fff;
   max-width: 21ch;
-  font-size: clamp(30px, 4.4vw, 64px);
-  line-height: 1.18;
+  font-size: clamp(25px, 3.3vw, 46px);
+  line-height: 1.24;
+  letter-spacing: -0.02em;
 }
 .moerk .citat .kilde {
   color: rgba(255, 255, 255, 0.6);
@@ -635,8 +662,9 @@ a {
 }
 .om .ledetekst {
   font-family: var(--serif);
-  font-size: clamp(23px, 2.2vw, 31px);
-  line-height: 1.42;
+  font-size: clamp(20px, 1.8vw, 25px);
+  line-height: 1.45;
+  font-weight: 300;
   color: var(--ink);
 }
 .om .valg {
@@ -685,10 +713,10 @@ a {
 .vtop .tilbage {
   display: inline-block;
   margin-bottom: clamp(30px, 5vw, 70px);
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  text-transform: none;
   text-decoration: none;
   color: var(--daempet);
 }
@@ -698,8 +726,7 @@ a {
 .vtop .under {
   margin: 20px 0 0;
   font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(21px, 2vw, 28px);
+  font-size: clamp(18px, 1.6vw, 22px);
   line-height: 1.4;
   color: var(--tekst);
   max-width: 34ch;
@@ -730,11 +757,11 @@ a {
 }
 .prosa h2 {
   margin: 46px 0 14px;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--messing);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  text-transform: none;
+  color: var(--ink);
 }
 .prosa h2:first-child {
   margin-top: 0;
@@ -753,12 +780,12 @@ a {
 }
 .data dt {
   padding-right: 30px;
-  font-size: 10.5px;
+  font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  text-transform: none;
   color: var(--daempet);
-  padding-top: 19px;
+  padding-top: 17px;
 }
 .data dd {
   text-align: right;
@@ -808,14 +835,15 @@ a {
 }
 .naeste .maerke {
   color: var(--daempet);
-  font-size: 10.5px;
+  font-size: 13.5px;
 }
 .naeste .titel {
   display: block;
   margin-top: 8px;
   font-family: var(--serif);
-  font-size: clamp(24px, 2.6vw, 38px);
-  line-height: 1.1;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
   color: var(--ink);
   transition: color 0.3s;
 }
@@ -892,10 +920,10 @@ a {
   gap: 8px;
 }
 .felt span {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  text-transform: none;
   color: var(--daempet);
 }
 .felt span em {
@@ -958,8 +986,8 @@ a {
 }
 .formular-tak {
   font-family: var(--serif);
-  font-size: clamp(26px, 2.6vw, 36px);
-  line-height: 1.3;
+  font-size: clamp(21px, 2vw, 28px);
+  line-height: 1.35;
   color: var(--ink);
   padding-top: 10px;
 }
@@ -982,11 +1010,11 @@ a {
 }
 .bund .oplysninger {
   margin: 0;
-  font-size: 11.5px;
+  font-size: 13.5px;
   font-weight: 400;
-  letter-spacing: 0.16em;
-  line-height: 2.1;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 1.9;
+  text-transform: none;
   text-align: right;
 }
 .bund .oplysninger a {
