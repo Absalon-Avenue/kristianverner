@@ -33,7 +33,6 @@ const raekker = [
   ['Status', d.status ? statusTekst(d.status) : ''],
 ].filter(([, v]) => v);
 
-const emne = encodeURIComponent(`Forespørgsel: ${med_aar}`);
 const delebillede = stort ? (await getImage({ src: stort, width: 1200, format: 'jpg' })).src : undefined;
 const punktum = (t: string) => (/[.!?]$/.test(t) ? t : `${t}.`);
 const beskrivelse = [d.kort, [d.kategori, d.materiale, d.maal].filter(Boolean).join(', '), `Værk af ${i.navn}`]
@@ -79,7 +78,7 @@ const data = {
               {raekker.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
             </dl>
           )}
-          <a class="knap" href={`mailto:${i.email}?subject=${emne}`} data-umami-event="Forespørgsel" data-umami-event-vaerk={d.titel}>Spørg til værket</a>
+          <a class="knap" href={sti(`/kontakt/?vaerk=${encodeURIComponent(med_aar)}`)} data-umami-event="Forespørgsel" data-umami-event-vaerk={d.titel}>Spørg til værket</a>
           <p class="note">Alle værker er unika. {i.navn.split(' ')[0]} svarer selv.</p>
         </aside>
       </div>

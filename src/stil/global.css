@@ -882,6 +882,88 @@ a {
   color: var(--messing);
 }
 
+/* kontaktformular */
+.formular {
+  display: grid;
+  gap: 26px;
+}
+.felt {
+  display: grid;
+  gap: 8px;
+}
+.felt span {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--daempet);
+}
+.felt span em {
+  font-style: normal;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+.felt input,
+.felt select,
+.felt textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 17px;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--linje);
+  border-radius: 0;
+  padding: 8px 0 10px;
+  transition: border-color 0.3s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.felt select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--daempet) 50%), linear-gradient(135deg, var(--daempet) 50%, transparent 50%);
+  background-position: calc(100% - 10px) 52%, calc(100% - 5px) 52%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.felt textarea {
+  resize: vertical;
+  min-height: 140px;
+  line-height: 1.6;
+}
+.felt input:focus,
+.felt select:focus,
+.felt textarea:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+.formular .knap {
+  justify-self: start;
+  margin-top: 6px;
+  cursor: pointer;
+}
+.formular .knap:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.formular-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--daempet);
+}
+.formular-fejl {
+  margin: 0;
+  font-size: 15px;
+  color: #9c3b1e;
+}
+.formular-tak {
+  font-family: var(--serif);
+  font-size: clamp(26px, 2.6vw, 36px);
+  line-height: 1.3;
+  color: var(--ink);
+  padding-top: 10px;
+}
+
 /* ---------- bund ---------- */
 .bund {
   border-top: 1px solid var(--linje);

@@ -7,14 +7,9 @@ const kontakt = await side('kontakt');
 const k = kontakt.data as Record<string, any>;
 const i = await indstillinger();
 const { Content } = await render(kontakt);
-const harTekst = (kontakt.body ?? '').trim().length > 0;
-const mail = (emne: string) => `mailto:${i.email}?subject=${encodeURIComponent(emne)}`;
-const veje = [
-  ['Køb af et værk', 'Køb af et værk'],
-  ['Bestillingsopgave', 'Bestillingsopgave'],
-  ['Udstilling og presse', 'Udstilling eller presse'],
-];
+const harTekst = (kontakt.body ?? '').replace(/<!--[\s\S]*?-->/g, '').trim().length > 0;
 const tlf = String(i.telefon ?? '').replace(/\s/g, '');
+const emner = ['Køb af et værk', 'Bestillingsopgave', 'Udstilling eller presse', 'Andet'];
 ---
 <Side titel={k.titel} beskrivelse={k.beskrivelse} aktiv="kontakt">
   <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
@@ -28,15 +23,108 @@ const tlf = String(i.telefon ?? '').replace(/\s/g, '');
           {i.instagram && <a href={`https://www.instagram.com/${i.instagram}/`} rel="me noopener" data-umami-event="Instagram" data-umami-event-sted="kontakt">Instagram @{i.instagram}</a>}
         </p>
       </div>
-      <ul class="veje">
-        {veje.map(([tekst, emne]) => (
-          <li>
-            <a href={mail(emne)} data-umami-event="Kontakt" data-umami-event-emne={emne}>
-              <span class="hvad">{tekst}</span><span class="tegn" aria-hidden="true">→</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+
+      <div class="formular-felt">
+        <form class="formular" id="formular" data-noegle={i.formular_noegle || ''} data-email={i.email} data-tak={k.tak} novalidate>
+          {k.formular_titel && <h2 class="mellem" style="margin-bottom:34px">{k.formular_titel}</h2>}
+          <label class="felt">
+            <span>Hvad drejer det sig om?</span>
+            <select name="emne" required>
+              {emner.map((e) => <option value={e}>{e}</option>)}
+            </select>
+          </label>
+          <label class="felt">
+            <span>Navn</span>
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+          <label class="felt">
+            <span>E-mail</span>
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+          <label class="felt">
+            <span>Telefon <em>(hvis du hellere vil ringes op)</em></span>
+            <input name="telefon" type="tel" autocomplete="tel" />
+          </label>
+          <label class="felt">
+            <span>Besked</span>
+            <textarea name="besked" rows="6" required></textarea>
+          </label>
+          <input type="checkbox" name="botcheck" class="kun-skaermlaeser" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <p class="formular-fejl" role="alert" hidden></p>
+          <button class="knap" type="submit">Send</button>
+          <p class="formular-note">Dine oplysninger bruges kun til at svare dig.</p>
+        </form>
+        <div class="formular-tak" id="tak" role="status" hidden></div>
+      </div>
     </div>
   </section>
 </Side>
+
+<script>
+  const f = document.querySelector<HTMLFormElement>('#formular');
+  if (f) {
+    // Kommer man fra et værk, står emnet og værket allerede skrevet ind.
+    const q = new URLSearchParams(location.search);
+    const vaerk = q.get('vaerk');
+    const emne = q.get('emne');
+    const sel = f.querySelector<HTMLSelectElement>('[name=emne]')!;
+    const besked = f.querySelector<HTMLTextAreaElement>('[name=besked]')!;
+    if (emne && [...sel.options].some((o) => o.value === emne)) sel.value = emne;
+    else if (vaerk) sel.value = 'Køb af et værk';
+    if (vaerk) besked.value = `Jeg er interesseret i ${vaerk}.\n\n`;
+
+    const fejl = f.querySelector<HTMLElement>('.formular-fejl')!;
+    const knap = f.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const vis = (t: string) => { fejl.textContent = t; fejl.hidden = !t; };
+
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      vis('');
+      if (!f.checkValidity()) {
+        vis('Udfyld navn, e-mail og besked, så jeg kan svare dig.');
+        f.reportValidity();
+        return;
+      }
+      const d = Object.fromEntries(new FormData(f).entries()) as Record<string, string>;
+      if (d.botcheck) return;
+      const noegle = f.dataset.noegle;
+      const emnelinje = `${d.emne}: henvendelse via kristianverner.dk`;
+
+      // Uden nøgle: åbn folks eget mailprogram med beskeden skrevet ind.
+      if (!noegle) {
+        const krop = `${d.besked}\n\n${d.name}\n${d.email}${d.telefon ? `\n${d.telefon}` : ''}`;
+        location.href = `mailto:${f.dataset.email}?subject=${encodeURIComponent(emnelinje)}&body=${encodeURIComponent(krop)}`;
+        return;
+      }
+
+      knap.disabled = true;
+      knap.textContent = 'Sender';
+      try {
+        const svar = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: noegle,
+            subject: emnelinje,
+            from_name: 'kristianverner.dk',
+            name: d.name,
+            email: d.email,
+            telefon: d.telefon || '',
+            emne: d.emne,
+            besked: d.besked,
+          }),
+        }).then((r) => r.json());
+        if (!svar.success) throw new Error(svar.message);
+        (window as any).umami?.track?.('Kontaktformular', { emne: d.emne });
+        const tak = document.querySelector<HTMLElement>('#tak')!;
+        tak.textContent = f.dataset.tak || 'Tak for din besked.';
+        tak.hidden = false;
+        f.hidden = true;
+      } catch {
+        vis(`Beskeden kunne ikke sendes. Prøv igen, eller skriv direkte til ${f.dataset.email}.`);
+        knap.disabled = false;
+        knap.textContent = 'Send';
+      }
+    });
+  }
+</script>

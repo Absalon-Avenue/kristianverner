@@ -17,6 +17,10 @@ priser:
 # Navnet på den, der har lavet sitet. Står diskret i bunden. Tomt felt = vises ikke.
 website_af: ""
 website_af_link: ""
+# Kontaktformularen sendes via Web3Forms (gratis, 250 henvendelser om måneden).
+# Få en nøgle på web3forms.com ved at skrive den mailadresse ind, henvendelserne skal sendes til.
+# Tomt felt = formularen åbner i stedet folks eget mailprogram med beskeden skrevet ind.
+formular_noegle: ""
 # Måling af besøgende med Umami (cloud.umami.is). Indsæt "Website ID" fra Umami her.
 # Tomt felt = ingen måling. Umami bruger ingen cookies, så der skal ikke være et cookiebanner.
 umami_id: ""

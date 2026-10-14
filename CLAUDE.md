@@ -102,6 +102,17 @@ Sebastian beder om det (fx med ordet "udgiv").
 Interne links skrives med `sti('/vaerker/')` fra `src/lib/sti.ts`, aldrig som rå `/vaerker/`.
 Så virker sitet også på en midlertidig adresse.
 
+## Kontakt
+
+Kontaktsiden har en formular, der sender via Web3Forms. Nøglen står i `formular_noegle` i
+`indhold/sider/indstillinger.md`. Uden nøgle åbner formularen folks eget mailprogram.
+"Spørg til værket" på værksiderne fører til formularen med værket skrevet ind.
+Teksten ved siden af formularen står i `indhold/sider/kontakt.md`.
+
+## Plan
+
+`PLAN.md` er arbejdslisten for findbarhed, måling og links. Kig i den, før du foreslår nyt.
+
 ## Måling
 
 Besøg måles med Umami (cloud.umami.is), som ikke bruger cookies. Derfor er der intet cookiebanner,
