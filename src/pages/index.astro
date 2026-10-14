@@ -27,10 +27,16 @@ const citatbillede = billede('sider/citat.jpg');
 <Side titel={f.titel} beskrivelse={f.beskrivelse} overVideo>
   {f.intro !== false && (
     <script is:inline slot="hoved">
+      // Introen kører, når man kommer udefra: fra Google, Instagram, et link eller en indtastet adresse.
+      // Den kører ikke, når man klikker rundt inde på sitet eller trykker tilbage.
+      // ?intro i adressen viser den altid, fx når sitet skal vises frem.
       try {
-        // ?intro i adressen viser introen igen, fx når sitet skal vises frem.
-        var vis = /[?&]intro\b/.test(location.search);
-        if ((vis || !sessionStorage.getItem('kv-intro')) && !matchMedia('(prefers-reduced-motion: reduce)').matches && scrollY < 40) {
+        var nav = performance.getEntriesByType('navigation')[0];
+        var tilbage = nav && nav.type === 'back_forward';
+        var indefra = false;
+        try { indefra = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+        var vis = /[?&]intro\b/.test(location.search) || (!tilbage && !indefra);
+        if (vis && !matchMedia('(prefers-reduced-motion: reduce)').matches && scrollY < 40) {
           document.documentElement.classList.add('intro');
         }
       } catch (e) {}

@@ -1,7 +1,7 @@
 ---
 // Introen på forsiden: sort skærm, logoet tegner sig selv, navnet folder sig ud,
 // og begge flyver op i hjørnet, mens filmen kommer frem bagved.
-// Vises kun første gang man åbner sitet i en session, og kan springes over med et klik.
+// Vises, når man kommer udefra, ikke når man klikker rundt på sitet. Kan springes over med et klik.
 // Slås fra helt med `intro: false` i indhold/sider/forside.md.
 import Logo from './Logo.astro';
 const { navn } = Astro.props;
@@ -58,7 +58,6 @@ const { navn } = Astro.props;
         rod.classList.remove('intro');
         skaerm.remove();
       });
-      try { sessionStorage.setItem('kv-intro', '1'); } catch {}
     };
 
     timere.push(window.setTimeout(() => laas.classList.add('udfoldet'), 1350));
