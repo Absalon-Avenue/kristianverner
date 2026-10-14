@@ -1,0 +1,37 @@
+---
+// Et varmt lys følger musen, og et klik tænder et glimt. Slukket på telefoner og for dem, der har bedt om ro.
+---
+<div class="lys varm" aria-hidden="true"></div>
+<div class="lys klar" aria-hidden="true"></div>
+<script>
+  const lag = [...document.querySelectorAll<HTMLElement>('.lys')];
+  const medMus = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const ro = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (lag.length && medMus && !ro) {
+    let mx = 0, my = 0, x = 0, y = 0, i_gang = false;
+    addEventListener('pointermove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      if (!i_gang) {
+        i_gang = true; x = mx; y = my;
+        lag.forEach((l) => l.classList.add('taendt'));
+        requestAnimationFrame(flyt);
+      }
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => lag.forEach((l) => l.classList.remove('taendt')));
+    document.addEventListener('pointerenter', () => i_gang && lag.forEach((l) => l.classList.add('taendt')));
+    addEventListener('pointerdown', (e) => {
+      const g = document.createElement('div');
+      g.className = 'glimt';
+      g.style.left = `${e.clientX}px`;
+      g.style.top = `${e.clientY}px`;
+      document.body.appendChild(g);
+      setTimeout(() => g.remove(), 1000);
+    }, { passive: true });
+    function flyt() {
+      x += (mx - x) * 0.12; y += (my - y) * 0.12;
+      const t = `translate3d(${x}px, ${y}px, 0)`;
+      lag.forEach((l) => (l.style.transform = t));
+      requestAnimationFrame(flyt);
+    }
+  }
+</script>

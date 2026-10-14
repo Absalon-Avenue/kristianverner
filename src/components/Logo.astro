@@ -1,0 +1,15 @@
+---
+// Logoet er tegnet op efter et foto af visitkortet. Skift det ud, når den rigtige vektorfil findes.
+const { tegnes = false } = Astro.props;
+---
+<svg viewBox="580 130 740 450" aria-hidden="true" class:list={[{ tegnes }]}>
+  <g fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="square">
+    <path pathLength="1" vector-effect="non-scaling-stroke" d="M598 340 L1295 160" />
+    <path pathLength="1" vector-effect="non-scaling-stroke" d="M598 340 L1291 548" />
+    <path pathLength="1" vector-effect="non-scaling-stroke" d="M1030 342 L1295 160" />
+    <path pathLength="1" vector-effect="non-scaling-stroke" d="M1030 342 L1291 548" />
+    <path pathLength="1" vector-effect="non-scaling-stroke" d="M1030 152 L1030 545" />
+    <circle pathLength="1" vector-effect="non-scaling-stroke" cx="945" cy="337" r="93" />
+    <circle pathLength="1" vector-effect="non-scaling-stroke" cx="1141" cy="345" r="113" />
+  </g>
+</svg>

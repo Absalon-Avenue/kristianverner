@@ -1,0 +1,1087 @@
+/* ------------------------------------------------------------------
+   Kristian Verner Works
+   Farver og skrifter står samlet her øverst. Ret dem ét sted, så følger hele sitet med.
+------------------------------------------------------------------- */
+:root {
+  --bone: #f8f6f2;        /* baggrund, varm papirhvid */
+  --bone2: #efeae1;       /* lidt mørkere flade, bag billeder */
+  --ink: #191712;         /* overskrifter */
+  --dyb: #100e0a;         /* de mørke felter */
+  --tekst: #3d3931;       /* brødtekst */
+  --daempet: #6f6a5f;     /* små oplysninger */
+  --messing: #86651f;     /* accent på lys baggrund */
+  --messinglys: #cba97a;  /* accent på mørk baggrund */
+  --linje: #e2dcd1;
+  --linjemoerk: #2b2721;
+
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans: "Jost Variable", Jost, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --kant: clamp(20px, 4.4vw, 60px);   /* luft ud til skærmkanten */
+  --bredde: 1320px;
+  --rolig: cubic-bezier(0.16, 0.7, 0.24, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: var(--bone);
+  color: var(--tekst);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+img {
+  height: auto;
+}
+a {
+  color: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--messing);
+  outline-offset: 4px;
+}
+::selection {
+  background: var(--messinglys);
+  color: var(--dyb);
+}
+.kun-skaermlaeser {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- byggesten ---------- */
+.ramme {
+  max-width: var(--bredde);
+  margin-inline: auto;
+  padding-inline: var(--kant);
+}
+.afsnit {
+  padding-block: clamp(72px, 11vw, 168px);
+}
+.maerke {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--messing);
+}
+.stor {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(38px, 5.4vw, 80px);
+  line-height: 1.02;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.mellem {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(30px, 3.6vw, 50px);
+  line-height: 1.1;
+  letter-spacing: -0.008em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.knap {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 17px 30px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+  text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: background 0.35s, color 0.35s;
+}
+.knap:hover {
+  background: var(--ink);
+  color: var(--bone);
+}
+.pil {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--linje);
+  transition: border-color 0.3s, color 0.3s;
+}
+.pil:hover {
+  color: var(--messing);
+  border-color: var(--messing);
+}
+
+/* ---------- logo og navn ---------- */
+.laas {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+.laas .segl {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 50%;
+  transition: background 0.6s var(--rolig), box-shadow 0.6s var(--rolig), width 0.6s var(--rolig),
+    height 0.6s var(--rolig), color 0.4s;
+}
+.laas svg {
+  width: 52px;
+  height: auto;
+  transition: width 0.6s var(--rolig);
+}
+.laas .tekst {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 24em;
+  transition: max-width 0.8s var(--rolig), opacity 0.45s, transform 0.8s var(--rolig), filter 0.6s;
+}
+.laas .navn {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.laas .streg {
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin-top: 8px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* logoet i toppen står fast i hjørnet */
+.laas.fast {
+  position: fixed;
+  z-index: 70;
+  top: 30px;
+  left: var(--kant);
+}
+/* bevægelserne slås først til, når siden har fundet sin startplacering og -farve */
+.i-gang .laas.fast {
+  transition: gap 0.8s var(--rolig), top 0.6s var(--rolig), color 0.4s;
+}
+/* efter lidt scroll: navnet glider ind i logoet. Logoet står frit, uden plade */
+.samlet .laas.fast {
+  gap: 0;
+  top: 22px;
+  color: var(--ink);
+}
+.samlet .laas.fast .tekst {
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-34px);
+  filter: blur(3px);
+}
+.samlet .laas.fast svg {
+  width: 44px;
+  filter: drop-shadow(0 0 5px rgba(248, 246, 242, 0.95)) drop-shadow(0 0 1px rgba(248, 246, 242, 0.9));
+}
+/* står logoet eller menuen oven på et mørkt felt, bliver de lyse */
+.samlet .laas.fast.paa-moerk {
+  color: #fff;
+}
+.samlet .laas.fast.paa-moerk svg {
+  filter: drop-shadow(0 0 5px rgba(16, 14, 10, 0.7));
+}
+
+/* ---------- top ---------- */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 112px;
+  flex-wrap: wrap;
+  gap: 18px 40px;
+  padding: 30px var(--kant);
+  color: var(--ink);
+}
+.top.over-video {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 10;
+  color: #fff;
+}
+/* toplinjen må ikke spærre for klik på videoen nedenunder, kun dens egne links */
+.top.over-video {
+  pointer-events: none;
+}
+.top.over-video a {
+  pointer-events: auto;
+}
+.top nav {
+  display: flex;
+  gap: clamp(22px, 3vw, 40px);
+}
+.top nav a {
+  position: relative;
+  text-decoration: none;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  padding-block: 6px;
+}
+.top nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transition: right 0.45s var(--rolig);
+}
+.top nav a:hover::after,
+.top nav a[aria-current="page"]::after {
+  right: 0;
+}
+
+/* ---------- forsidens video ---------- */
+.helt {
+  position: relative;
+  height: 100svh;
+  min-height: 540px;
+  max-height: 1000px;
+  overflow: hidden;
+  background: var(--dyb);
+  color: #fff;
+}
+.helt video,
+.helt .still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.helt .slor {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(16, 14, 10, 0.58) 0%, rgba(16, 14, 10, 0.06) 26%, rgba(16, 14, 10, 0.1) 52%, rgba(16, 14, 10, 0.82) 100%),
+    linear-gradient(100deg, rgba(16, 14, 10, 0.5) 0%, rgba(16, 14, 10, 0) 58%);
+}
+.helt .indhold {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 0 var(--kant) clamp(34px, 5vw, 64px);
+}
+.helt .maerke {
+  color: var(--messinglys);
+}
+.helt h1 {
+  margin: 16px 0 0;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(52px, 9.4vw, 148px);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.helt .billedtekst {
+  flex: none;
+  max-width: 24ch;
+  margin: 0 0 6px;
+  text-align: right;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  line-height: 1.9;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.helt a.billedtekst:hover {
+  color: #fff;
+}
+
+/* lydknap på videoen */
+.lydknap {
+  position: absolute;
+  right: var(--kant);
+  bottom: clamp(34px, 5vw, 64px);
+  z-index: 12;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  background: rgba(16, 14, 10, 0.25);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.3s, border-color 0.3s;
+}
+.lydknap:hover {
+  background: rgba(16, 14, 10, 0.5);
+  border-color: #fff;
+}
+.lydknap svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.lydknap .taendt { display: none; }
+.lydknap[aria-pressed="true"] .taendt { display: inline; }
+.lydknap[aria-pressed="true"] .slukket { display: none; }
+.helt .indhold { padding-right: calc(var(--kant) + 60px); }
+
+/* ---------- citat og skitse ---------- */
+.aabning {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(36px, 6vw, 100px);
+  align-items: center;
+}
+.citat blockquote {
+  margin: 26px 0 0;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(27px, 3.3vw, 46px);
+  line-height: 1.3;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.citat .kilde {
+  margin: 30px 0 0;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  line-height: 1.9;
+  text-transform: uppercase;
+  color: var(--daempet);
+}
+.citat .kilde a {
+  color: var(--messing);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(134, 101, 31, 0.35);
+}
+.citat .kilde a:hover {
+  border-color: var(--messing);
+}
+.citat .egen {
+  margin-top: 34px;
+  max-width: 54ch;
+}
+.skitse {
+  margin: 0 calc(var(--kant) * -1) 0 0;
+}
+.skitse img {
+  width: 100%;
+  mix-blend-mode: multiply;
+}
+
+/* ---------- værker ---------- */
+.vhoved {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: clamp(44px, 6vw, 84px);
+}
+.vkort {
+  display: block;
+}
+.vkort .billede {
+  position: relative;
+  overflow: hidden;
+  background: var(--bone2);
+}
+.vkort .spor {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.vkort .spor::-webkit-scrollbar {
+  display: none;
+}
+.vkort .slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+.vkort img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  transition: transform 1.2s var(--rolig);
+}
+.vkort .slide:hover img {
+  transform: scale(1.03);
+}
+.vkort .blad {
+  position: absolute;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(248, 246, 242, 0.86);
+  color: var(--ink);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.35s, background 0.3s;
+}
+.vkort .blad svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+}
+.vkort .tilbage { left: 14px; }
+.vkort .frem { right: 14px; }
+.vkort:hover .blad,
+.vkort .blad:focus-visible {
+  opacity: 1;
+}
+.vkort .blad:hover {
+  background: var(--bone);
+}
+.vkort .prikker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  pointer-events: none;
+}
+.vkort .prikker span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(248, 246, 242, 0.55);
+  box-shadow: 0 0 6px rgba(16, 14, 10, 0.25);
+  transition: background 0.3s, transform 0.3s;
+}
+.vkort .prikker span.aktiv {
+  background: #fff;
+  transform: scale(1.3);
+}
+.vkort .linje {
+  color: inherit;
+  text-decoration: none;
+}
+.vkort .linje:hover h3 {
+  color: var(--messing);
+}
+.vkort .linje {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 22px;
+}
+.vkort h3 {
+  margin: 0;
+  transition: color 0.3s;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(24px, 2.1vw, 31px);
+  line-height: 1.15;
+  color: var(--ink);
+}
+.vkort .aar {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: var(--daempet);
+  font-variant-numeric: tabular-nums;
+}
+.vkort .slags {
+  margin: 6px 0 0;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--daempet);
+}
+
+/* forsiden: to spalter, forskudt, som at gå gennem en sal */
+.vandring {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(56px, 8vw, 128px) clamp(28px, 5vw, 84px);
+}
+.vandring .vkort:nth-child(4n + 1) { grid-column: span 7; }
+.vandring .vkort:nth-child(4n + 2) { grid-column: span 5; margin-top: clamp(40px, 11vw, 190px); }
+.vandring .vkort:nth-child(4n + 3) { grid-column: span 5; }
+.vandring .vkort:nth-child(4n + 4) { grid-column: span 7; margin-top: clamp(40px, 9vw, 150px); }
+
+/* oversigten: roligt gitter */
+.gitter {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(48px, 6vw, 96px) clamp(24px, 3.4vw, 56px);
+}
+
+/* ---------- mørkt felt ---------- */
+.moerk {
+  background: var(--dyb);
+  color: #fff;
+}
+.moerk .maerke {
+  color: var(--messinglys);
+}
+.moerk .citat blockquote {
+  color: #fff;
+  max-width: 21ch;
+  font-size: clamp(30px, 4.4vw, 64px);
+  line-height: 1.18;
+}
+.moerk .citat .kilde {
+  color: rgba(255, 255, 255, 0.6);
+}
+.moerk .citat .kilde a {
+  color: var(--messinglys);
+  border-color: rgba(203, 169, 122, 0.4);
+}
+
+.tofelt {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(36px, 6vw, 100px);
+  align-items: center;
+}
+.tofelt .citat {
+  padding-block: clamp(72px, 10vw, 150px);
+}
+.tofelt figure {
+  margin: 0 calc(var(--kant) * -1) 0 0;
+}
+.tofelt figure img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+/* ---------- om ---------- */
+.om {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(36px, 7vw, 120px);
+  align-items: center;
+}
+.om .portraet img {
+  width: 100%;
+  max-width: 520px;
+  mix-blend-mode: multiply;
+}
+.om .tekst p {
+  margin: 0 0 20px;
+  max-width: 50ch;
+}
+.om .ledetekst {
+  font-family: var(--serif);
+  font-size: clamp(23px, 2.2vw, 31px);
+  line-height: 1.42;
+  color: var(--ink);
+}
+.om .valg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 34px;
+  margin-top: 38px;
+}
+.fakta {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--linje);
+}
+.fakta li {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 20px;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--linje);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.fakta .aar {
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: var(--messing);
+  font-variant-numeric: tabular-nums;
+  padding-top: 3px;
+}
+.fakta a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--linje);
+  transition: border-color 0.3s, color 0.3s;
+}
+.fakta a:hover {
+  color: var(--messing);
+  border-color: var(--messing);
+}
+
+/* ---------- enkelt værk ---------- */
+.vtop {
+  padding-block: clamp(26px, 4vw, 60px) clamp(34px, 4.4vw, 64px);
+}
+.vtop .tilbage {
+  display: inline-block;
+  margin-bottom: clamp(30px, 5vw, 70px);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--daempet);
+}
+.vtop .tilbage:hover {
+  color: var(--ink);
+}
+.vtop .under {
+  margin: 20px 0 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(21px, 2vw, 28px);
+  line-height: 1.4;
+  color: var(--tekst);
+  max-width: 34ch;
+}
+.vstort {
+  background: var(--bone2);
+}
+.vstort img {
+  width: 100%;
+  max-height: 92svh;
+  object-fit: contain;
+  margin-inline: auto;
+}
+.vkrop {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(40px, 7vw, 120px);
+  align-items: start;
+}
+.vkrop.uden-tekst {
+  grid-template-columns: minmax(0, 520px);
+}
+.prosa {
+  max-width: 62ch;
+}
+.prosa p {
+  margin: 0 0 22px;
+}
+.prosa h2 {
+  margin: 46px 0 14px;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--messing);
+}
+.prosa h2:first-child {
+  margin-top: 0;
+}
+.data {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  border-bottom: 1px solid var(--linje);
+}
+.data dt,
+.data dd {
+  margin: 0;
+  padding: 15px 0;
+  border-top: 1px solid var(--linje);
+}
+.data dt {
+  padding-right: 30px;
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--daempet);
+  padding-top: 19px;
+}
+.data dd {
+  text-align: right;
+  font-size: 15.5px;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.vside .knap {
+  margin-top: 34px;
+  width: 100%;
+  justify-content: center;
+}
+.vside .note {
+  margin: 16px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--daempet);
+}
+.vflere {
+  columns: 2;
+  column-gap: clamp(16px, 2.4vw, 36px);
+}
+.vflere figure {
+  margin: 0 0 clamp(16px, 2.4vw, 36px);
+  break-inside: avoid;
+  background: var(--bone2);
+}
+.vflere img {
+  width: 100%;
+}
+.fotokredit {
+  margin: 22px 0 0;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--daempet);
+}
+.naeste {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  padding-block: clamp(36px, 5vw, 64px);
+  border-top: 1px solid var(--linje);
+}
+.naeste a {
+  text-decoration: none;
+  max-width: 46%;
+}
+.naeste .maerke {
+  color: var(--daempet);
+  font-size: 10.5px;
+}
+.naeste .titel {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--serif);
+  font-size: clamp(24px, 2.6vw, 38px);
+  line-height: 1.1;
+  color: var(--ink);
+  transition: color 0.3s;
+}
+.naeste a:hover .titel {
+  color: var(--messing);
+}
+.naeste .frem {
+  text-align: right;
+  margin-left: auto;
+}
+
+/* ---------- kontakt ---------- */
+.kontakt {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(36px, 7vw, 120px);
+  align-items: start;
+}
+.veje {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--linje);
+}
+.veje a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--linje);
+  text-decoration: none;
+  transition: padding 0.45s var(--rolig), color 0.3s;
+}
+.veje a:hover {
+  padding-left: 14px;
+  color: var(--messing);
+}
+.veje .hvad {
+  font-family: var(--serif);
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: 1.15;
+  color: var(--ink);
+  transition: color 0.3s;
+}
+.veje a:hover .hvad {
+  color: var(--messing);
+}
+.veje .tegn {
+  font-size: 18px;
+  color: var(--messing);
+}
+.direkte {
+  margin: 34px 0 0;
+  font-size: 16px;
+  line-height: 2;
+}
+.direkte a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--linje);
+}
+.direkte a:hover {
+  border-color: var(--messing);
+  color: var(--messing);
+}
+
+/* ---------- bund ---------- */
+.bund {
+  border-top: 1px solid var(--linje);
+  padding-block: clamp(40px, 5vw, 64px);
+  color: var(--daempet);
+}
+.bund .raekke {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 28px 40px;
+}
+.bund .laas {
+  color: var(--ink);
+}
+.bund .oplysninger {
+  margin: 0;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  line-height: 2.1;
+  text-transform: uppercase;
+  text-align: right;
+}
+.bund .oplysninger a {
+  text-decoration: none;
+}
+.bund .oplysninger a:hover {
+  color: var(--ink);
+}
+
+/* ---------- lyset der følger musen ---------- */
+.lys {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 560px;
+  height: 560px;
+  margin: -280px 0 0 -280px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s;
+  will-change: transform;
+}
+.lys.varm {
+  z-index: 40;
+  background: radial-gradient(circle closest-side, rgba(255, 204, 138, 0.5), rgba(255, 214, 160, 0.2) 46%, rgba(255, 222, 176, 0) 76%);
+  mix-blend-mode: multiply;
+}
+.lys.klar {
+  z-index: 41;
+  background: radial-gradient(circle closest-side, rgba(255, 220, 168, 0.3), rgba(255, 226, 180, 0.09) 50%, rgba(255, 226, 180, 0) 74%);
+  mix-blend-mode: screen;
+}
+.lys.taendt {
+  opacity: 1;
+}
+.glimt {
+  position: fixed;
+  z-index: 42;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  border: 1px solid rgba(203, 169, 122, 0.95);
+  box-shadow: 0 0 22px rgba(255, 214, 158, 0.55), inset 0 0 12px rgba(255, 214, 158, 0.35);
+  pointer-events: none;
+  animation: glimt 0.95s var(--rolig) forwards;
+}
+@keyframes glimt {
+  from { transform: scale(0.3); opacity: 1; }
+  to   { transform: scale(12); opacity: 0; }
+}
+
+/* ---------- logoet tegner sig selv ---------- */
+.tegnes path,
+.tegnes circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: tegn 1.5s var(--rolig) forwards;
+}
+.tegnes :nth-child(2) { animation-delay: 0.12s; }
+.tegnes :nth-child(3) { animation-delay: 0.34s; }
+.tegnes :nth-child(4) { animation-delay: 0.46s; }
+.tegnes :nth-child(5) { animation-delay: 0.7s; }
+.tegnes :nth-child(6) { animation-delay: 0.9s; }
+.tegnes :nth-child(7) { animation-delay: 1.05s; }
+@keyframes tegn {
+  to { stroke-dashoffset: 0; }
+}
+
+/* ---------- menuen til tommelfingeren (kun berøringsskærme: telefoner og små tablets) ---------- */
+.tommel {
+  display: none;
+}
+@media (max-width: 900px) and (pointer: coarse) {
+  .top nav { display: none; }
+  .tommel {
+    position: fixed;
+    z-index: 60;
+    right: 4px;
+    top: 22%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    transition: transform 0.45s var(--rolig), opacity 0.35s;
+  }
+  .tommel.skjult {
+    transform: translateX(calc(100% + 24px));
+    opacity: 0;
+    pointer-events: none;
+  }
+  .tommel a {
+    position: relative;
+    display: block;
+    /* ordene står på højkant og læses oppefra og ned, som på en bogryg */
+    writing-mode: vertical-rl;
+    padding: 4px 13px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(248, 246, 242, 1), 0 0 4px rgba(248, 246, 242, 1), 0 0 1px rgba(248, 246, 242, 1);
+  }
+  .i-gang .tommel a {
+    transition: color 0.4s, text-shadow 0.4s;
+  }
+  .tommel a.paa-moerk {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(16, 14, 10, 0.9), 0 0 4px rgba(16, 14, 10, 0.8), 0 0 1px rgba(16, 14, 10, 0.9);
+  }
+  .tommel a[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -9px;
+    width: 5px;
+    height: 5px;
+    margin-left: -2.5px;
+    border-radius: 50%;
+    background: var(--messing);
+  }
+  .tommel a.paa-moerk[aria-current="page"]::before {
+    background: var(--messinglys);
+  }
+  .lydknap {
+    bottom: auto;
+    top: 30px;
+  }
+  .helt .indhold { padding-right: var(--kant); }
+}
+
+/* ---------- små skærme ---------- */
+@media (max-width: 900px) {
+  body { font-size: 16.5px; }
+  .aabning,
+  .tofelt,
+  .om,
+  .kontakt,
+  .vkrop { grid-template-columns: minmax(0, 1fr); }
+  .skitse { margin-left: calc(var(--kant) * -1); }
+  .tofelt figure { margin-left: calc(var(--kant) * -1); }
+  .tofelt .citat { padding-bottom: 0; }
+  .gitter { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .om .portraet img { max-width: 380px; }
+  .helt .indhold { flex-direction: column; align-items: flex-start; }
+  .helt .billedtekst { text-align: left; max-width: none; }
+}
+@media (max-width: 620px) {
+  .top { padding-block: 22px; min-height: 92px; }
+  .laas svg { width: 44px; }
+  .laas .navn { font-size: 11px; letter-spacing: 0.26em; }
+  .laas.fast { top: 22px; }
+  .samlet .laas.fast { top: 16px; }
+  .samlet .laas.fast svg { width: 40px; }
+  .vandring { display: block; }
+  .vandring .vkort { margin-top: 0 !important; margin-bottom: 56px; }
+  .gitter { grid-template-columns: minmax(0, 1fr); }
+  .vflere { columns: 1; }
+  .bund .oplysninger { text-align: left; }
+  .naeste { flex-direction: column; }
+  .naeste a { max-width: none; }
+  .naeste .frem { text-align: left; margin-left: 0; }
+}
+
+/* ---------- ro for dem der har bedt om det ---------- */
+@media (hover: none), (pointer: coarse) {
+  .lys, .glimt { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+  }
+  .lys, .glimt { display: none; }
+}

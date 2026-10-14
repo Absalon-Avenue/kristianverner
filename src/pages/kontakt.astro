@@ -1,0 +1,42 @@
+---
+import { render } from 'astro:content';
+import Side from '../layouts/Side.astro';
+import { side, indstillinger } from '../lib/indhold';
+
+const kontakt = await side('kontakt');
+const k = kontakt.data as Record<string, any>;
+const i = await indstillinger();
+const { Content } = await render(kontakt);
+const harTekst = (kontakt.body ?? '').trim().length > 0;
+const mail = (emne: string) => `mailto:${i.email}?subject=${encodeURIComponent(emne)}`;
+const veje = [
+  ['Køb af et værk', 'Køb af et værk'],
+  ['Bestillingsopgave', 'Bestillingsopgave'],
+  ['Udstilling og presse', 'Udstilling eller presse'],
+];
+const tlf = String(i.telefon ?? '').replace(/\s/g, '');
+---
+<Side titel={k.titel} beskrivelse={k.beskrivelse} aktiv="kontakt">
+  <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
+    <div class="ramme kontakt">
+      <div>
+        <h1 class="stor">Kontakt</h1>
+        {harTekst && <div class="prosa" style="margin-top:30px"><Content /></div>}
+        <p class="direkte">
+          <a href={`mailto:${i.email}`} data-umami-event="Kontakt" data-umami-event-emne="Mail direkte">{i.email}</a><br />
+          {i.telefon && <><a href={`tel:${tlf}`} data-umami-event="Kontakt" data-umami-event-emne="Telefon">{i.telefon}</a><br /></>}
+          {i.instagram && <a href={`https://www.instagram.com/${i.instagram}/`} rel="me noopener" data-umami-event="Instagram" data-umami-event-sted="kontakt">Instagram @{i.instagram}</a>}
+        </p>
+      </div>
+      <ul class="veje">
+        {veje.map(([tekst, emne]) => (
+          <li>
+            <a href={mail(emne)} data-umami-event="Kontakt" data-umami-event-emne={emne}>
+              <span class="hvad">{tekst}</span><span class="tegn" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Side>

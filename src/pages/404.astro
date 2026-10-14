@@ -1,0 +1,15 @@
+---
+import Side from '../layouts/Side.astro';
+import { indstillinger } from '../lib/indhold';
+import { sti } from '../lib/sti';
+const i = await indstillinger();
+---
+<Side titel={`Siden findes ikke | ${i.firmanavn}`}>
+  <section class="afsnit">
+    <div class="ramme">
+      <p class="maerke" style="margin-bottom:22px">404</p>
+      <h1 class="stor" style="margin-bottom:40px">Siden findes ikke</h1>
+      <a class="knap" href={sti('/vaerker/')}>Se værkerne</a>
+    </div>
+  </section>
+</Side>

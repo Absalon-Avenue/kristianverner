@@ -1,0 +1,49 @@
+---
+// Denne side findes kun lokalt (npm run dev). Den viser alt det, der endnu ikke er offentligt.
+import { Image } from 'astro:assets';
+import Side from '../layouts/Side.astro';
+import { vaerker } from '../lib/indhold';
+import { billederTil } from '../lib/billeder';
+const alle = await vaerker({ medKladder: true });
+const kladder = alle.filter((v) => v.data.kladde);
+const ude = alle.filter((v) => !v.data.kladde);
+const tomme = (d: any) =>
+  [['materiale', d.materiale], ['mål', d.maal], ['vægt', d.vaegt], ['pris', d.pris], ['status', d.status], ['fotograf', d.foto]]
+    .filter(([, v]) => !v).map(([k]) => k);
+---
+<Side titel="Kladder (kun lokalt)">
+  <section class="afsnit" style="padding-top:40px">
+    <div class="ramme">
+      <p class="maerke" style="margin-bottom:18px">Kun på denne computer</p>
+      <h1 class="stor" style="margin-bottom:22px">Kladder</h1>
+      <p style="max-width:62ch;margin:0 0 70px">
+        Værkerne herunder ligger klar, men vises ikke på nettet. Når oplysningerne er skrevet ind i værkets fil,
+        og <code>kladde</code> står til <code>false</code>, kommer værket med ud.
+      </p>
+
+      {kladder.map((v) => (
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;padding:38px 0;border-top:1px solid var(--linje)">
+          <div>
+            <p class="maerke" style="margin-bottom:10px">indhold/vaerker/{v.id}.md</p>
+            <h2 class="mellem">{v.data.titel}{v.data.aar && `, ${v.data.aar}`}</h2>
+            {v.data.mangler && <p style="margin:18px 0 0"><strong style="font-weight:500">Mangler:</strong> {v.data.mangler}</p>}
+            <p style="margin:12px 0 0;color:var(--daempet);font-size:14.5px">Billedmappe: billeder/{v.id}/ ({billederTil(v.id).length} billeder)</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:start">
+            {billederTil(v.id).map((b) => <Image src={b} alt="" width={360} style="aspect-ratio:1;object-fit:cover;width:100%" />)}
+          </div>
+        </div>
+      ))}
+
+      <h2 class="mellem" style="margin:90px 0 26px">Offentlige værker, hvor der mangler noget</h2>
+      <ul class="fakta">
+        {ude.map((v) => (
+          <li style="grid-template-columns:240px 1fr">
+            <span style="color:var(--ink)">{v.data.titel}</span>
+            <span>{tomme(v.data).length ? `Tomme felter: ${tomme(v.data).join(', ')}` : 'Alt udfyldt'}{!(v.body ?? '').trim() && '. Ingen tekst.'}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Side>

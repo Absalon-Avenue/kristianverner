@@ -1,0 +1,129 @@
+---
+import '@fontsource/cormorant-garamond/300.css';
+import '@fontsource/cormorant-garamond/400.css';
+import '@fontsource/cormorant-garamond/300-italic.css';
+import '@fontsource/cormorant-garamond/400-italic.css';
+import '@fontsource-variable/jost';
+import '../stil/global.css';
+import Laas from '../components/Laas.astro';
+import Lys from '../components/Lys.astro';
+import Tommelmenu from '../components/Tommelmenu.astro';
+import Karrusel from '../components/Karrusel.astro';
+import { indstillinger } from '../lib/indhold';
+import { sti } from '../lib/sti';
+
+const { titel, beskrivelse = '', overVideo = false, aktiv = '', delebillede, ekstraData } = Astro.props;
+const i = await indstillinger();
+const adresse = new URL(Astro.url.pathname, Astro.site).href;
+const rod = new URL(sti('/'), Astro.site).href;
+const og = new URL(delebillede ?? sti('/og.jpg'), Astro.site).href;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${rod}#kristian`,
+  name: i.navn,
+  alternateName: i.ogsaa_kendt_som ?? [],
+  jobTitle: i.fag,
+  birthDate: i.foedt || undefined,
+  url: rod,
+  sameAs: i.profiler ?? [],
+  alumniOf: i.uddannelse ? { '@type': 'CollegeOrUniversity', name: i.uddannelse } : undefined,
+  award: i.priser ?? undefined,
+  worksFor: {
+    '@type': 'Organization',
+    name: i.firmanavn,
+    url: rod,
+    vatID: i.cvr ? `DK${i.cvr}` : undefined,
+    address: i.adresse,
+  },
+};
+// Måling kører kun på det færdige site, ikke mens der arbejdes lokalt.
+const maal = import.meta.env.PROD && i.umami_id;
+const menu = [
+  { href: sti('/vaerker/'), tekst: 'Værker', id: 'vaerker' },
+  { href: sti('/om/'), tekst: 'Om', id: 'om' },
+  { href: sti('/kontakt/'), tekst: 'Kontakt', id: 'kontakt' },
+];
+---
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titel}</title>
+    {beskrivelse && <meta name="description" content={beskrivelse} />}
+    <link rel="canonical" href={adresse} />
+    <link rel="icon" type="image/svg+xml" href={sti('/favicon.svg')} />
+    <link rel="sitemap" href={sti('/sitemap-index.xml')} />
+    <meta name="theme-color" content="#f8f6f2" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={i.firmanavn} />
+    <meta property="og:title" content={titel} />
+    {beskrivelse && <meta property="og:description" content={beskrivelse} />}
+    <meta property="og:url" content={adresse} />
+    <meta property="og:image" content={og} />
+    <meta property="og:locale" content="da_DK" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {i.google_verifikation && <meta name="google-site-verification" content={i.google_verifikation} />}
+    {maal && <script defer src="https://cloud.umami.is/script.js" data-website-id={i.umami_id}></script>}
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
+    {ekstraData && <script type="application/ld+json" set:html={JSON.stringify(ekstraData)} />}
+  </head>
+  <body>
+    <Lys />
+    <header class:list={['top', { 'over-video': overVideo }]}>
+      <Laas navn={i.firmanavn} tegnes={overVideo} fast />
+      <nav aria-label="Hovedmenu">
+        {menu.map((m) => <a href={m.href} aria-current={aktiv === m.id ? 'page' : undefined}>{m.tekst}</a>)}
+      </nav>
+    </header>
+
+    <Tommelmenu menu={menu} aktiv={aktiv} />
+
+    <main><slot /></main>
+    <Karrusel />
+    <script>
+      // Navnet trækker sig ind i logoet, når man har scrollet lidt ned.
+      const rod = document.documentElement;
+      let vent = 0;
+      // Logo og menu bliver lyse, når de står oven på et mørkt felt (videoen, citatfeltet).
+      const faste = [...document.querySelectorAll<HTMLElement>('.laas.fast, .tommel a')];
+      const moerke = [...document.querySelectorAll<HTMLElement>('[data-moerk]')];
+      const tjek = () => {
+        const y = scrollY;
+        if (y > 90) rod.classList.add('samlet');
+        else if (y < 40) rod.classList.remove('samlet');
+        faste.forEach((el) => {
+          const r = el.getBoundingClientRect();
+          const midt = r.top + r.height / 2;
+          const over = moerke.some((m) => { const b = m.getBoundingClientRect(); return midt >= b.top && midt <= b.bottom; });
+          el.classList.toggle('paa-moerk', over);
+        });
+      };
+      addEventListener('scroll', () => { cancelAnimationFrame(vent); vent = requestAnimationFrame(tjek); }, { passive: true });
+      // Tjek igen, når siden har lagt sig helt til rette. Telefoner måler ofte forkert lige ved start.
+      tjek();
+      ['load', 'resize', 'pageshow', 'orientationchange'].forEach((h) => addEventListener(h, tjek));
+      setTimeout(tjek, 300);
+      requestAnimationFrame(() => requestAnimationFrame(() => { tjek(); rod.classList.add('i-gang'); }));
+    </script>
+
+    <footer class="bund">
+      <div class="ramme raekke">
+        <Laas navn={i.firmanavn} />
+        <p class="oplysninger">
+          {i.adresse}<br />
+          CVR {i.cvr}
+          {i.instagram && <> · <a href={`https://www.instagram.com/${i.instagram}/`} rel="me noopener" data-umami-event="Instagram" data-umami-event-sted="bund">Instagram</a></>}
+          {i.website_af && (
+            <>
+              <br />Website:
+              {i.website_af_link ? <a href={i.website_af_link} rel="noopener">{i.website_af}</a> : i.website_af}
+            </>
+          )}
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

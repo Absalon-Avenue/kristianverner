@@ -1,0 +1,21 @@
+---
+import Side from '../../layouts/Side.astro';
+import Vaerkkort from '../../components/Vaerkkort.astro';
+import { vaerker, indstillinger } from '../../lib/indhold';
+const alle = await vaerker();
+const i = await indstillinger();
+---
+<Side
+  titel={`Værker | ${i.firmanavn}`}
+  beskrivelse={`Skulpturer, lamper og installationer af ${i.navn}. Alle værker er unika.`}
+  aktiv="vaerker"
+>
+  <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
+    <div class="ramme">
+      <h1 class="stor" style="margin-bottom:clamp(44px,7vw,100px)">Værker</h1>
+      <div class="gitter">
+        {alle.map((v, n) => <Vaerkkort vaerk={v} straks={n < 3} />)}
+      </div>
+    </div>
+  </section>
+</Side>

@@ -1,0 +1,18 @@
+<script>
+  // Styrer alle billedkarruseller på siden. Én gang pr. side.
+  const ro = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-karrusel]').forEach((kort) => {
+    const spor = kort.querySelector<HTMLElement>('.spor')!;
+    const prikker = [...kort.querySelectorAll<HTMLElement>('.prikker span')];
+    const antal = prikker.length;
+    const nu = () => Math.round(spor.scrollLeft / spor.clientWidth);
+    const gaaTil = (i: number) =>
+      spor.scrollTo({ left: ((i + antal) % antal) * spor.clientWidth, behavior: ro ? 'auto' : 'smooth' });
+    const marker = () => prikker.forEach((p, i) => p.classList.toggle('aktiv', i === nu()));
+    kort.querySelector('.tilbage')?.addEventListener('click', () => gaaTil(nu() - 1));
+    kort.querySelector('.frem')?.addEventListener('click', () => gaaTil(nu() + 1));
+    let vent = 0;
+    spor.addEventListener('scroll', () => { cancelAnimationFrame(vent); vent = requestAnimationFrame(marker); }, { passive: true });
+    marker();
+  });
+</script>

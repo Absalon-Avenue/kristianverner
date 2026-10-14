@@ -1,0 +1,16 @@
+---
+titel: "Om Kristian Verner | Dansk-fransk billedhugger"
+beskrivelse: "Kristian Verner Norden Minthe, født 1996, er dansk-fransk billedhugger, uddannet fra Det Kgl. Danske Kunstakademi i 2023. Modtager af Carl Nielsen og Anne Marie Carl-Nielsens Legats talentpris 2025."
+linje: "Kristian Verner Norden Minthe, født 1996, er dansk-fransk billedhugger. Uddannet fra Det Kgl. Danske Kunstakademi i 2023."
+fakta:
+  - aar: "2025"
+    tekst: "Talentprisen, Carl Nielsen og Anne Marie Carl-Nielsens Legat"
+  - aar: "2025"
+    tekst: "Seks måneder i Paris hos billedhuggeren Pierre Yermia"
+  - aar: "2024"
+    tekst: "Blue Canvas Projects"
+  - aar: "2023"
+    tekst: "Afgang 2023, Kunsthal Charlottenborg"
+  - aar: "2023"
+    tekst: "MFA i billedhuggeri, Det Kgl. Danske Kunstakademi"
+---

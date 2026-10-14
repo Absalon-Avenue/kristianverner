@@ -1,0 +1,22 @@
+---
+// Menuen på telefoner: står i højre side, hvor tommelfingeren er.
+// Den glider væk, når man scroller ned, og kommer tilbage, når man scroller op.
+const { menu, aktiv = '' } = Astro.props;
+---
+<nav class="tommel" aria-label="Menu">
+  {menu.map((m: any) => <a href={m.href} aria-current={aktiv === m.id ? 'page' : undefined}>{m.tekst}</a>)}
+</nav>
+<script>
+  const nav = document.querySelector<HTMLElement>('.tommel');
+  if (nav) {
+    let sidst = scrollY, vent = 0;
+    const opdater = () => {
+      const y = scrollY;
+      const nederst = y + innerHeight >= document.documentElement.scrollHeight - 40;
+      if (y < 80 || nederst || y < sidst - 6) nav.classList.remove('skjult');
+      else if (y > sidst + 6) nav.classList.add('skjult');
+      sidst = y;
+    };
+    addEventListener('scroll', () => { cancelAnimationFrame(vent); vent = requestAnimationFrame(opdater); }, { passive: true });
+  }
+</script>

@@ -1,0 +1,141 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import Side from '../layouts/Side.astro';
+import Vaerkkort from '../components/Vaerkkort.astro';
+import { vaerker, side, indstillinger } from '../lib/indhold';
+import { billede } from '../lib/billeder';
+import { sti } from '../lib/sti';
+
+const forside = await side('forside');
+const om = await side('om');
+const i = await indstillinger();
+const f = forside.data as Record<string, any>;
+const alle = await vaerker();
+const citater = (await getCollection('omtale'))
+  .filter((o) => o.data.forside && o.data.citat)
+  .sort((a, b) => a.data.raekkefoelge - b.data.raekkefoelge);
+const [aabning, moerk] = citater;
+
+const { Content: EgenTekst } = await render(forside);
+const harEgenTekst = (forside.body ?? '').trim().length > 0;
+const skitse = billede('sider/skitse.jpg');
+const portraet = billede('sider/portraet.jpg');
+const citatbillede = billede('sider/citat.jpg');
+---
+<Side titel={f.titel} beskrivelse={f.beskrivelse} overVideo>
+  <section class="helt" data-moerk>
+    <img class="still" src={sti('/video/forside.jpg')} alt="" />
+    <video autoplay muted loop playsinline preload="metadata" poster={sti('/video/forside.jpg')} aria-hidden="true">
+      <source src={sti('/video/forside.mp4')} type="video/mp4" />
+    </video>
+    <div class="slor"></div>
+    {f.lyd && (
+      <button class="lydknap" type="button" aria-pressed="false" aria-label="Slå lyden til">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+          <path class="slukket" d="m16 9.5 5 5m0-5-5 5" />
+          <path class="taendt" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" />
+        </svg>
+      </button>
+    )}
+    <div class="indhold">
+      <div>
+        {f.linje && <p class="maerke">{f.linje}</p>}
+        <h1>{i.navn}<span class="kun-skaermlaeser">, {String(i.fag).toLowerCase()}</span></h1>
+      </div>
+      {f.videotekst && (
+        <a class="billedtekst" href={sti(`/vaerker/${f.videolink}/`)}>{f.videotekst}</a>
+      )}
+    </div>
+  </section>
+
+  {(aabning || harEgenTekst) && (
+    <section class="afsnit">
+      <div class="ramme aabning">
+        <div class="citat">
+          {aabning && (
+            <>
+              <p class="maerke">{aabning.data.titel}</p>
+              <blockquote>{aabning.data.citat}</blockquote>
+              <p class="kilde">
+                <a href={aabning.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={aabning.data.kilde}>{aabning.data.kilde}</a>
+              </p>
+            </>
+          )}
+          {harEgenTekst && <div class="prosa egen"><EgenTekst /></div>}
+        </div>
+        {skitse && (
+          <figure class="skitse">
+            <Image src={skitse} alt="Håndtegnet arbejdstegning af en lampe" widths={[640, 1000, 1500]} sizes="(min-width: 900px) 45vw, 100vw" />
+          </figure>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="afsnit" style="padding-top:0">
+    <div class="ramme">
+      <div class="vhoved">
+        <h2 class="mellem">Værker</h2>
+        <a class="pil" href={sti('/vaerker/')}>Se alle værker <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="vandring">
+        {alle.slice(0, 6).map((v) => <Vaerkkort vaerk={v} sizes="(min-width: 620px) 55vw, 92vw" />)}
+      </div>
+    </div>
+  </section>
+
+  {moerk && (
+    <section class="moerk" data-moerk>
+      <div class="ramme tofelt">
+        <div class="citat">
+          <p class="maerke">{moerk.data.titel}</p>
+          <blockquote>{moerk.data.citat}</blockquote>
+          <p class="kilde"><a href={moerk.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={moerk.data.kilde}>{moerk.data.kilde}</a></p>
+        </div>
+        {citatbillede && (
+          <figure>
+            <Image src={citatbillede} alt="Kristian Verner ved Sisyfos" widths={[640, 1000, 1500]} sizes="(min-width: 900px) 45vw, 100vw" />
+          </figure>
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="afsnit">
+    <div class="ramme om">
+      {portraet && (
+        <div class="portraet">
+          <Image src={portraet} alt={`Portræt af ${i.navn}`} widths={[420, 640, 873]} sizes="(min-width: 900px) 38vw, 380px" />
+        </div>
+      )}
+      <div class="tekst">
+        <p class="maerke" style="margin-bottom:24px">Om</p>
+        <p class="ledetekst">{om.data.linje}</p>
+        <div class="valg">
+          <a class="pil" href={sti('/om/')}>Om Kristian <span aria-hidden="true">→</span></a>
+          <a class="pil" href={sti('/kontakt/')}>Kontakt <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Side>
+
+<script>
+  // Lydknappen. Videoen starter altid uden lyd, ellers må den ikke starte af sig selv.
+  const knap = document.querySelector<HTMLButtonElement>('.lydknap');
+  const film = document.querySelector<HTMLVideoElement>('.helt video');
+  if (knap && film) {
+    knap.addEventListener('click', () => {
+      film.muted = !film.muted;
+      if (!film.muted && film.paused) film.play();
+      knap.setAttribute('aria-pressed', String(!film.muted));
+      knap.setAttribute('aria-label', film.muted ? 'Slå lyden til' : 'Slå lyden fra');
+    });
+  }
+  // Hvis nogen har bedt om mindre bevægelse, står videoen stille på sit første billede.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); });
+  }
+</script>

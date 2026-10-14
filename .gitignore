@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+# Originalmateriale og interne noter kommer aldrig på nettet
+raamateriale/
+noter/

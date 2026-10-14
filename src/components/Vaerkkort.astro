@@ -1,0 +1,48 @@
+---
+// Et værk i oversigten. Alle værkets billeder kan bladres igennem direkte i kortet:
+// stryg på telefonen, eller brug pilene på computeren. Klik på billedet åbner værket.
+import { Image } from 'astro:assets';
+import { billederTil } from '../lib/billeder';
+import { sti } from '../lib/sti';
+const { vaerk, sizes = '(min-width: 900px) 33vw, 92vw', straks = false } = Astro.props;
+const d = vaerk.data;
+const billeder = billederTil(vaerk.id);
+const href = sti(`/vaerker/${vaerk.id}/`);
+const navn = [d.titel, d.aar].filter(Boolean).join(', ');
+const alt = navn + (d.materiale ? `. ${d.materiale}` : '');
+const flere = billeder.length > 1;
+---
+<article class="vkort" data-karrusel={flere ? '' : undefined}>
+  <div class="billede">
+    <div class="spor">
+      {billeder.map((b, n) => (
+        <a class="slide" href={href} tabindex={n === 0 ? undefined : -1} aria-hidden={n === 0 ? undefined : 'true'}>
+          <Image
+            src={b}
+            alt={n === 0 ? alt : ''}
+            widths={[480, 800, 1200, 1600]}
+            sizes={sizes}
+            loading={straks && n === 0 ? 'eager' : 'lazy'}
+            style={n === 0 && d.fokus ? `object-position:${d.fokus}` : undefined}
+          />
+        </a>
+      ))}
+    </div>
+    {flere && (
+      <>
+        <button class="blad tilbage" type="button" aria-label={`Forrige billede af ${d.titel}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8" /></svg>
+        </button>
+        <button class="blad frem" type="button" aria-label={`Næste billede af ${d.titel}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8" /></svg>
+        </button>
+        <div class="prikker" aria-hidden="true">{billeder.map(() => <span></span>)}</div>
+      </>
+    )}
+  </div>
+  <a class="linje" href={href}>
+    <h3>{d.titel}</h3>
+    {d.aar && <span class="aar">{d.aar}</span>}
+  </a>
+  {d.kategori && <p class="slags">{d.kategori}</p>}
+</article>
