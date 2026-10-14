@@ -11,9 +11,9 @@ Opdateret 14. oktober 2026, samme dag som sitet gik live på kristianverner.dk.
 
 ## Lige nu
 
-- [ ] Google Search Console: bekræft domænet med TXT-posten hos Simply, og indsend `https://kristianverner.dk/sitemap-index.xml`
-- [ ] Bing Webmaster Tools: importér sitet fra Search Console (ét klik, giver også DuckDuckGo og ChatGPT-søgning)
-- [ ] Umami: opret gratis konto, sæt "Website ID" ind i `umami_id` i `indhold/sider/indstillinger.md`
+- [x] Google Search Console: domænet bekræftet, sitemap indsendt
+- [x] Bing Webmaster Tools: importeret fra Search Console
+- [x] Umami: kører. Besøgende med reklameblokering (fx Brave) tælles ikke med
 - [ ] Web3Forms: få en nøgle til Kristians mail, sæt den ind i `formular_noegle`. Indtil da åbner kontaktformularen folks mailprogram
 - [ ] Kristian accepterer GitHub-invitationen
 - [ ] Kontaktteksten i `indhold/sider/kontakt.md` er et udkast. Kristian retter den til sine egne ord
