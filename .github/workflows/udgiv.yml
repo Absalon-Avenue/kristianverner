@@ -29,7 +29,10 @@ jobs:
       - id: pages
         uses: actions/configure-pages@v5
       - run: npm ci
-      - run: npx astro build --site "${{ steps.pages.outputs.origin }}" --base "${{ steps.pages.outputs.base_path }}"
+      # Adressen skrives altid som https, også før GitHub har slået HTTPS til på domænet.
+      - run: |
+          ORIGIN="${{ steps.pages.outputs.origin }}"
+          npx astro build --site "${ORIGIN/http:\/\//https://}" --base "${{ steps.pages.outputs.base_path }}"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
