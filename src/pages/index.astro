@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import Side from '../layouts/Side.astro';
 import Vaerkkort from '../components/Vaerkkort.astro';
+import Intro from '../components/Intro.astro';
 import { vaerker, side, indstillinger } from '../lib/indhold';
 import { billede } from '../lib/billeder';
 import { sti } from '../lib/sti';
@@ -24,6 +25,18 @@ const portraet = billede('sider/portraet.jpg');
 const citatbillede = billede('sider/citat.jpg');
 ---
 <Side titel={f.titel} beskrivelse={f.beskrivelse} overVideo>
+  {f.intro !== false && (
+    <script is:inline slot="hoved">
+      try {
+        // ?intro i adressen viser introen igen, fx når sitet skal vises frem.
+        var vis = /[?&]intro\b/.test(location.search);
+        if ((vis || !sessionStorage.getItem('kv-intro')) && !matchMedia('(prefers-reduced-motion: reduce)').matches && scrollY < 40) {
+          document.documentElement.classList.add('intro');
+        }
+      } catch (e) {}
+    </script>
+  )}
+  {f.intro !== false && <Intro navn={i.firmanavn} />}
   <section class="helt" data-moerk>
     <img class="still" src={sti('/video/forside.jpg')} alt="" />
     <video autoplay muted loop playsinline preload="metadata" poster={sti('/video/forside.jpg')} aria-hidden="true">

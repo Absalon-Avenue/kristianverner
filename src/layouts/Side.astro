@@ -49,6 +49,7 @@ const menu = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <slot name="hoved" />
     <title>{titel}</title>
     {beskrivelse && <meta name="description" content={beskrivelse} />}
     <link rel="canonical" href={adresse} />
@@ -72,9 +73,6 @@ const menu = [
     <Lys />
     <header class:list={['top', { 'over-video': overVideo }]}>
       <Laas navn={i.firmanavn} tegnes={overVideo} fast />
-      <nav aria-label="Hovedmenu">
-        {menu.map((m) => <a href={m.href} aria-current={aktiv === m.id ? 'page' : undefined}>{m.tekst}</a>)}
-      </nav>
     </header>
 
     <Tommelmenu menu={menu} aktiv={aktiv} />

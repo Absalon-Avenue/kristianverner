@@ -4,6 +4,8 @@ beskrivelse: "Kristian Verner er dansk-fransk billedhugger. Skulpturer i marmor,
 linje: "Skulptur · Lys · Installation"
 videotekst: "Sisyfos, 2023. Fra udhugningen i Skulpturhaven."
 videolink: "sisyfos"
+# Introen med logoet på sort skærm, første gang man åbner sitet. false = ingen intro.
+intro: true
 # Vis den lille lydknap på videoen. false = ingen knap.
 lyd: true
 ---

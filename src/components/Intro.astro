@@ -1,0 +1,70 @@
+---
+// Introen på forsiden: sort skærm, logoet tegner sig selv, navnet folder sig ud,
+// og begge flyver op i hjørnet, mens filmen kommer frem bagved.
+// Vises kun første gang man åbner sitet i en session, og kan springes over med et klik.
+// Slås fra helt med `intro: false` i indhold/sider/forside.md.
+import Logo from './Logo.astro';
+const { navn } = Astro.props;
+---
+<div class="intro-skaerm" aria-hidden="true">
+  <div class="laas intro-laas">
+    <span class="segl"><Logo tegnes /></span>
+    <span class="tekst"><span class="navn">{navn}</span><span class="streg"></span></span>
+  </div>
+</div>
+
+<script>
+  const rod = document.documentElement;
+  const skaerm = document.querySelector<HTMLElement>('.intro-skaerm');
+  const laas = document.querySelector<HTMLElement>('.intro-laas');
+  const maal = document.querySelector<HTMLElement>('.laas.fast');
+
+  if (rod.classList.contains('intro') && skaerm && laas && maal) {
+    let faerdig = false;
+    const timere: number[] = [];
+
+    // Intrologoet skal ende præcis som logoet i toppen. Det skaleres op, så det fylder pænt midt på skærmen.
+    const m = maal.getBoundingClientRect();
+    const s = Math.min(2.4, (innerWidth * 0.86) / m.width);
+    laas.style.setProperty('--s', String(s));
+
+    const slut = (hurtigt = false) => {
+      if (faerdig) return;
+      faerdig = true;
+      timere.forEach(clearTimeout);
+      laas.classList.add('udfoldet');
+      const fra = laas.getBoundingClientRect();
+      const til = maal.getBoundingClientRect();
+      const varighed = hurtigt ? 350 : 950;
+      laas.style.transformOrigin = '0 0';
+      laas.style.position = 'fixed';
+      laas.style.left = `${fra.left}px`;
+      laas.style.top = `${fra.top}px`;
+      laas.style.transform = `scale(${s})`;
+      const flyv = laas.animate(
+        [
+          { transform: `translate(0px, 0px) scale(${s})` },
+          { transform: `translate(${til.left - fra.left}px, ${til.top - fra.top}px) scale(1)` },
+        ],
+        { duration: varighed, easing: 'cubic-bezier(0.65, 0, 0.2, 1)', fill: 'forwards' },
+      );
+      skaerm.animate([{ backgroundColor: 'rgba(16,14,10,1)' }, { backgroundColor: 'rgba(16,14,10,0)' }], {
+        duration: varighed,
+        delay: hurtigt ? 0 : 120,
+        easing: 'ease-out',
+        fill: 'forwards',
+      });
+      flyv.finished.then(() => {
+        rod.classList.remove('intro');
+        skaerm.remove();
+      });
+      try { sessionStorage.setItem('kv-intro', '1'); } catch {}
+    };
+
+    timere.push(window.setTimeout(() => laas.classList.add('udfoldet'), 1350));
+    timere.push(window.setTimeout(() => slut(), 2250));
+    ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((h) =>
+      addEventListener(h, () => slut(true), { once: true, passive: true }),
+    );
+  }
+</script>
