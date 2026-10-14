@@ -23,7 +23,7 @@ website_af_link: ""
 formular_noegle: ""
 # Måling af besøgende med Umami (cloud.umami.is). Indsæt "Website ID" fra Umami her.
 # Tomt felt = ingen måling. Umami bruger ingen cookies, så der skal ikke være et cookiebanner.
-umami_id: ""
+umami_id: "5bc3cc75-d42f-4e4a-a7bb-10cc04c2874b"
 # Koden fra Google Search Console, når de beder om en "HTML-tag". Kun selve koden i content="...".
 google_verifikation: ""
 # Andre skrivemåder af navnet, som findes på nettet. Bruges kun usynligt, så Google kan se, at det er samme person.
