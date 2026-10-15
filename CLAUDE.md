@@ -102,6 +102,15 @@ Sebastian beder om det (fx med ordet "udgiv").
 Interne links skrives med `sti('/vaerker/')` fra `src/lib/sti.ts`, aldrig som rå `/vaerker/`.
 Så virker sitet også på en midlertidig adresse.
 
+## Forsiden
+
+- Introen (logoet på sort skærm) ligger i `src/components/Intro.astro`. Den kører, når man kommer udefra,
+  ikke ved klik rundt på sitet. `?intro` i adressen viser den altid. `intro: false` i
+  `indhold/sider/forside.md` slår den fra. Tiderne står samlet i komponenten.
+- Ny forsidevideo: `vaerktoej/lav-forsidevideo.sh "sti/til/video.mov" start-sekund længde`. Scriptet klarer
+  HDR-farver, lyd og størrelse. Lydknappen styres med `lyd:` i `forside.md`.
+- Toppen af forsiden bruger Cormorant og champagne med vilje. Resten af sitet bruger Albert Sans.
+
 ## Kontakt
 
 Kontaktsiden har en formular, der sender via Web3Forms. Nøglen står i `formular_noegle` i

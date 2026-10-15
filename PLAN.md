@@ -1,7 +1,7 @@
 # Plan: findbarhed, måling og næste skridt
 
 Arbejdsliste for Sebastian og Kristian. Læses også af Kristians AI.
-Opdateret 14. oktober 2026, samme dag som sitet gik live på kristianverner.dk.
+Opdateret 15. oktober 2026. Sitet gik live 14. oktober 2026.
 
 ## Status
 
@@ -15,7 +15,7 @@ Opdateret 14. oktober 2026, samme dag som sitet gik live på kristianverner.dk.
 - [x] Bing Webmaster Tools: importeret fra Search Console
 - [x] Umami: kører. Besøgende med reklameblokering (fx Brave) tælles ikke med
 - [ ] Web3Forms: få en nøgle til Kristians mail, sæt den ind i `formular_noegle`. Indtil da åbner kontaktformularen folks mailprogram
-- [ ] Kristian accepterer GitHub-invitationen
+- [ ] Kristian accepterer GitHub-invitationen. Den blev sendt 14. oktober og udløber efter 7 dage. Er den udløbet, sender Sebastian en ny
 - [ ] Kontaktteksten i `indhold/sider/kontakt.md` er et udkast. Kristian retter den til sine egne ord
 
 ## Søgninger: hvor han kan vinde

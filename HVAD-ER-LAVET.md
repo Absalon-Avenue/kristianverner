@@ -1,16 +1,18 @@
 # Det, der er lavet på kristianverner.dk
 
 Sitet blev bygget i august og oktober 2026 af Sebastian med Claude, og gik live 14. oktober 2026.
+Senest opdateret 15. oktober 2026.
 Her er hvad der er lavet, og hvorfor det betyder noget.
 
 ## Sitet
 
 - **Bygget fra bunden til Kristian**, ikke en skabelon. Et galleri og et univers, ikke en webshop.
+- **En intro på sort skærm**, når man kommer ind på sitet udefra: logoet tegner sig selv, navnet glider langsomt frem, og begge flyver op i hjørnet, mens filmen kommer frem. Den kommer ikke, når man klikker rundt på sitet, og et klik springer den over. Vis den frem med `kristianverner.dk/?intro`.
 - **Forsiden åbner med filmen fra udhugningen af Sisyfos.** Den starter selv uden lyd, og en lille knap slår lyden til.
-- **Logoet tegner sig selv**, når siden åbner. Når man scroller, glider navnet ind i logoet, og logoet bliver i hjørnet.
+- **Når man scroller, glider navnet ind i logoet**, og logoet bliver i hjørnet.
 - **Et varmt lys følger musen** på computeren, og et klik giver et lille lysglimt.
 - **Hvert værk har sin egen side**, og alle værkets billeder kan bladres igennem direkte i oversigten.
-- **Lavet til telefonen først.** Menuen står på højkant i højre side, hvor tommelfingeren er. Den glider væk, når man scroller ned.
+- **Menuen står på højkant i højre side** på både telefon og computer, lige ved tommelfingeren på telefonen. Den glider væk, når man scroller ned, og kommer igen, når man scroller op.
 - **Logo og menu skifter selv farve** efter, om de står på lyst eller mørkt.
 - **Testet på rigtig iPhone-Safari**, computer og små skærme.
 
@@ -33,12 +35,12 @@ Her er hvad der er lavet, og hvorfor det betyder noget.
 
 ## Findbarhed: Google, Bing, DuckDuckGo og ChatGPT
 
-- **Google Search Console er sat op og bekræftet.** Her ses hvad folk søger på, når de finder ham.
+- **Google Search Console og Bing Webmaster Tools er sat op**, og sitemappen er sendt ind til begge. Bing dækker også DuckDuckGo og ChatGPT-søgning. Her ses hvad folk søger på, når de finder ham.
 - **Sitemap**, så søgemaskinerne finder alle sider.
 - **Skjulte data til søgemaskiner og AI**, der fortæller, hvem han er: navn, fag, uddannelse, pris, og alle de navne han står under rundt omkring på nettet. Det binder "Kristian Verner", "Kristian Norden Minthe" og "Kristian Verner Norden Minthe" sammen til én person. Hvert værk er beskrevet som et kunstværk med titel, år og materiale.
 - **Åben for AI-søgemaskiner**, så ChatGPT, Claude og Perplexity kan læse og citere sitet.
 - **Delebilleder**, så links på Instagram, Facebook og i beskeder viser et pænt billede.
-- **Hurtigt site**, uden tunge systemer. Det tæller hos Google.
+- **Hurtigt og sikkert.** Siden svarer på 0,03 sekunder fra servere over hele verden, uden tunge systemer. Det tæller hos Google. Alt kører over HTTPS, og alle varianter af adressen (http, www) sender videre til den samme.
 - **En research-rapport på 9.000 ord** om hvad folk søger på i Danmark, Sverige, Norge, Frankrig, Tyskland, Holland og England. De vigtigste fund:
   - "Billedhugger" og "kunstner" alene ejes af store markedspladser. Kampen vindes på bestillingsopgaver, udsmykning og lokale søgninger.
   - Danske virksomheder kan trække kunst fra i skat, når den købes direkte af kunstneren. Et stærkt salgsargument.
@@ -49,11 +51,11 @@ Her er hvad der er lavet, og hvorfor det betyder noget.
 
 - **Kontaktformular**, der sorterer henvendelser: køb, bestilling, udstilling og presse. Beskeder lander direkte i hans indbakke, så snart nøglen fra Web3Forms er sat ind. Indtil da åbner den folks mailprogram med beskeden skrevet færdig.
 - **"Spørg til værket"** på hver værkside fører direkte til formularen med værket skrevet ind.
-- **Måling af besøg uden cookies**, så der ikke skal være et irriterende cookiebanner. Den viser besøg, hvor folk kommer fra, og hvem der trykker på "Spørg til værket". Den er bygget ind og tænder, så snart Umami-kontoen er oprettet.
+- **Måling af besøg uden cookies**, så der ikke skal være et irriterende cookiebanner. Den viser besøg, hvor folk kommer fra, og hvem der trykker på "Spørg til værket". Den kører med Umami. Besøgende med reklameblokering tælles ikke med, så tallene er et lille undertal.
 
 ## Drift og ejerskab
 
-- **Domænet kristianverner.dk** står i Kristian Verner Works' navn.
+- **Domænet kristianverner.dk** står i Kristian Verner Works' navn, købt hos Simply.com.
 - **Gratis hosting** på GitHub. Ingen webhotel, ingen månedlig regning, intet at opdatere og intet at hacke.
 - **Sitet udgiver sig selv**, når en ændring gemmes. Det tager et par minutter.
 - **Alt kan fortrydes.** Hver ændring gemmes i en historik.
