@@ -35,7 +35,7 @@ const { navn } = Astro.props;
       laas.classList.add('udfoldet');
       const fra = laas.getBoundingClientRect();
       const til = maal.getBoundingClientRect();
-      const varighed = hurtigt ? 350 : 950;
+      const varighed = hurtigt ? 350 : 1100;
       laas.style.transformOrigin = '0 0';
       laas.style.position = 'fixed';
       laas.style.left = `${fra.left}px`;
@@ -60,8 +60,9 @@ const { navn } = Astro.props;
       });
     };
 
-    timere.push(window.setTimeout(() => laas.classList.add('udfoldet'), 1350));
-    timere.push(window.setTimeout(() => slut(), 2250));
+    // Tider i millisekunder: navnet folder sig ud, logo og navn står et øjeblik, og så flyver de op.
+    timere.push(window.setTimeout(() => laas.classList.add('udfoldet'), 1450));
+    timere.push(window.setTimeout(() => slut(), 3250));
     ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((h) =>
       addEventListener(h, () => slut(true), { once: true, passive: true }),
     );
