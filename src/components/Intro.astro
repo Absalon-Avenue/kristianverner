@@ -61,8 +61,8 @@ const { navn } = Astro.props;
     };
 
     // Tider i millisekunder: navnet folder sig ud, logo og navn står et øjeblik, og så flyver de op.
-    timere.push(window.setTimeout(() => laas.classList.add('udfoldet'), 1450));
-    timere.push(window.setTimeout(() => slut(), 3250));
+    timere.push(window.setTimeout(() => laas.classList.add('udfoldet'), 1200));
+    timere.push(window.setTimeout(() => slut(), 3700));
     ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((h) =>
       addEventListener(h, () => slut(true), { once: true, passive: true }),
     );
