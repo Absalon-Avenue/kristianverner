@@ -1,6 +1,6 @@
 ---
 titel: "Bestillingsværk"
-aar: 2025
+aar: ""
 kategori: "Lampe"
 kort: ""
 materiale: ""
