@@ -7,7 +7,7 @@ citat: ""
 # Billedet fra artiklen. Det vises på værkets side med billedteksten, fotografens navn og link til artiklen.
 vaerk: "bestillingsvaerk"
 billede: "omtale/bobedre.jpg"
-billedtekst: "Lampen over bordet er af Kristian Verner Norden Minthe."
+billedtekst: "Lysværket over bordet er af Kristian Verner Norden Minthe."
 foto: "Birgitta Wolfgang Bjørnvad"
 forside: false
 raekkefoelge: 0

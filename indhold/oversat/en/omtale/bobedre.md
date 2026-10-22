@@ -1,3 +1,3 @@
 ---
-billedtekst: "The lamp above the table is by Kristian Verner Norden Minthe."
+billedtekst: "The light work above the table is by Kristian Verner Norden Minthe."
 ---
