@@ -14,5 +14,20 @@
     let vent = 0;
     spor.addEventListener('scroll', () => { cancelAnimationFrame(vent); vent = requestAnimationFrame(marker); }, { passive: true });
     marker();
+
+    // Billederne glider selv videre, når kortet har været på skærmen et par sekunder.
+    // Det stopper, mens man peger på kortet eller selv bladrer, og hvis man har bedt om mindre bevægelse.
+    if (ro) return;
+    let synlig = false, holdt = false, timer = 0;
+    const naeste = () => {
+      clearTimeout(timer);
+      if (!synlig || holdt || document.hidden) return;
+      timer = window.setTimeout(() => { if (synlig && !holdt) gaaTil(nu() + 1); naeste(); }, 3000 + Math.random() * 800);
+    };
+    new IntersectionObserver(([e]) => { synlig = e.intersectionRatio > 0.6; naeste(); }, { threshold: [0, 0.6, 1] }).observe(kort);
+    kort.addEventListener('pointerenter', () => { holdt = true; clearTimeout(timer); });
+    kort.addEventListener('pointerleave', () => { holdt = false; naeste(); });
+    spor.addEventListener('touchstart', () => { holdt = true; clearTimeout(timer); window.setTimeout(() => { holdt = false; naeste(); }, 8000); }, { passive: true });
+    document.addEventListener('visibilitychange', naeste);
   });
 </script>
