@@ -20,9 +20,9 @@ Sisyfos-skulpturen er en poetisk skulptur, der både i metode, materiale, form o
 
 Jeg har håndhugget skulpturen over 4 måneder i det ikoniske Carrara-marmor, fra en 3,5 ton blok og ned til 450kg. Dens figur er givet i den geometriske form 'oloid': en hypereffektiv form, der kan trille uendeligt, som i den græske myte om Sisyfos, der må skubbe en stenkugle op ad en bakke, for ved toppen altid se den rulle ned igen.
 
-Oloiden adskiller sig fra kuglen ved i 1929 først at være blevet opfundet som form. Visuelt har den klare linjer og er samtidig rund. Dette geometriske paradox lader sig gøre, da kuglen består af to kongruente cirkler, der i cirkelperiferien af hinanden giver skulpturen evnen til at trille, hvilket den gør i en vægtfordeling, der er mere effektiv end kuglen.
+Oloiden adskiller sig fra kuglen ved i 1929 først at være blevet opfundet som form. Visuelt har den klare linjer og er samtidig rund. Dette geometriske paradox lader sig gøre, da formen består af to kongruente cirkler, der i cirkelperiferien af hinanden giver skulpturen evnen til at trille, hvilket den gør i en vægtfordeling, der er mere effektiv end kuglen.
 
-På den måde omskriver skulpturen den deprimerende myte om Sisyfos' uendelige arbejde. Marmoret symboliserer skulpturtraditionens og mytens hjem i det antikke Grækenland, mens mødet med formen peger på menneskelig udvikling og innovation, der symboliserer fremskridt og et håb for fremtiden. Dertil mimer og forbinder skulpturen sig til den kunstneriske arv fra oloidens skaber, kunstneren Paul Schatz Stiftung, som kunstnere som f.eks. Ólafur Elíasson også citerer.
+På den måde omskriver skulpturen den deprimerende myte om Sisyfos' uendelige arbejde. Marmoret symboliserer skulpturtraditionens og mytens hjem i det antikke Grækenland, mens mødet med formen peger på menneskelig udvikling og innovation, der symboliserer fremskridt og et håb for fremtiden. Dertil mimer og forbinder skulpturen sig til den kunstneriske arv fra oloidens skaber, kunstneren Paul Schatz, som kunstnere som f.eks. Ólafur Elíasson også citerer.
 
 ## Det praktiske
 
