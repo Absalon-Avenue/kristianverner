@@ -17,12 +17,17 @@ const citater = (await getCollection('omtale'))
   .filter((o) => o.data.forside && o.data.citat)
   .sort((a, b) => a.data.raekkefoelge - b.data.raekkefoelge);
 const [aabning, moerk] = citater;
+// Priser og legater uden citat står som en kort linje mellem de to sidste felter.
+const udmaerkelser = (await getCollection('omtale'))
+  .filter((o) => o.data.forside && !o.data.citat)
+  .sort((a, b) => a.data.raekkefoelge - b.data.raekkefoelge);
 
 const { Content: EgenTekst } = await render(forside);
 const harEgenTekst = (forside.body ?? '').trim().length > 0;
-const skitse = billede('sider/skitse.jpg');
+const skitse = billede('sider/lampe.jpg');
 const portraet = billede('sider/portraet.jpg');
 const citatbillede = billede('sider/citat.jpg');
+const kunstfondlogo = billede('sider/statens-kunstfond.png');
 ---
 <Side titel={f.titel} beskrivelse={f.beskrivelse} overVideo>
   {f.intro !== false && (
@@ -69,30 +74,22 @@ const citatbillede = billede('sider/citat.jpg');
     </div>
   </section>
 
-  {(aabning || harEgenTekst) && (
-    <section class="afsnit">
-      <div class="ramme aabning">
-        <div class="citat">
-          {aabning && (
-            <>
-              <p class="maerke">{aabning.data.titel}</p>
-              <blockquote>{aabning.data.citat}</blockquote>
-              <p class="kilde">
-                <a href={aabning.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={aabning.data.kilde}>{aabning.data.kilde}</a>
-              </p>
-            </>
-          )}
-          {harEgenTekst && <div class="prosa egen"><EgenTekst /></div>}
+  <section class="afsnit">
+    <div class="ramme om">
+      {portraet && (
+        <div class="portraet">
+          <Image src={portraet} alt={`Portræt af ${i.navn}`} widths={[420, 640, 873]} sizes="(min-width: 900px) 38vw, 380px" />
         </div>
-        {skitse && (
-          <figure class="skitse">
-            <Image src={skitse} alt="Håndtegnet arbejdstegning af en lampe" widths={[640, 1000, 1500]} sizes="(min-width: 900px) 45vw, 100vw" />
-          </figure>
-        )}
+      )}
+      <div class="tekst">
+        <p class="ledetekst">{om.data.linje}</p>
+        <div class="valg">
+          <a class="pil" href={sti('/om/')}>Om Kristian</a>
+          <a class="pil" href={sti('/kontakt/')}>Kontakt</a>
+        </div>
       </div>
-    </section>
-  )}
-
+    </div>
+  </section>
   <section class="afsnit" style="padding-top:0">
     <div class="ramme">
       <div class="vhoved">
@@ -122,22 +119,48 @@ const citatbillede = billede('sider/citat.jpg');
     </section>
   )}
 
-  <section class="afsnit">
-    <div class="ramme om">
-      {portraet && (
-        <div class="portraet">
-          <Image src={portraet} alt={`Portræt af ${i.navn}`} widths={[420, 640, 873]} sizes="(min-width: 900px) 38vw, 380px" />
-        </div>
-      )}
-      <div class="tekst">
-        <p class="ledetekst">{om.data.linje}</p>
-        <div class="valg">
-          <a class="pil" href={sti('/om/')}>Om Kristian</a>
-          <a class="pil" href={sti('/kontakt/')}>Kontakt</a>
-        </div>
+  {udmaerkelser.length > 0 && (
+    <section class="udmaerkelser">
+      <div class="ramme">
+        {udmaerkelser.map((u) => (
+          <p class="udmaerkelse">
+            {u.data.kilde.startsWith('Statens Kunstfond') && kunstfondlogo && (
+              <Image class="vandmaerke" src={kunstfondlogo} alt="Statens Kunstfond" widths={[120, 240]} sizes="80px" />
+            )}
+            <span class="maerke">{u.data.titel}</span>
+            {u.data.link
+              ? <a href={u.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={u.data.kilde}>{u.data.kilde}</a>
+              : <span>{u.data.kilde}</span>}
+          </p>
+        ))}
       </div>
-    </div>
-  </section>
+    </section>
+  )}
+
+  {(aabning || harEgenTekst) && (
+    <section class="afsnit">
+      <div class="ramme aabning">
+        <div class="citat">
+          {aabning && (
+            <>
+              <p class="maerke">{aabning.data.titel}</p>
+              <blockquote>{aabning.data.citat}</blockquote>
+              <p class="kilde">
+                <a href={aabning.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={aabning.data.kilde}>{aabning.data.kilde}</a>
+              </p>
+            </>
+          )}
+          {harEgenTekst && <div class="prosa egen"><EgenTekst /></div>}
+        </div>
+        {skitse && (
+          <figure class="skitse">
+            <Image src={skitse} alt={`${i.navn} med en af sine lamper`} widths={[640, 1000, 1500]} sizes="(min-width: 900px) 45vw, 100vw" />
+          </figure>
+        )}
+      </div>
+    </section>
+  )}
+
 </Side>
 
 <script>
