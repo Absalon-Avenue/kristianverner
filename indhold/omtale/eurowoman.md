@@ -1,7 +1,7 @@
 ---
 kilde: "Eurowoman"
 aar: "2022"
-titel: ""
+titel: "Nr. 299, december 2022"
 # Link til artiklen, når det findes.
 link: ""
 citat: ""
