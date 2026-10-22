@@ -33,14 +33,14 @@ const vaerkTitel = (id: string) => vaerker.find((v) => v.id === id)?.data.titel 
             <article class="opslag" id={o.id}>
               <p class="maerke dato">{o.data.dato ? datoTekst(String(o.data.dato), sprog) : ''}</p>
               <div class="indhold">
-                {o.data.video ? (
-                  <video class="hoved" src={sti(`/video/${o.data.video}.mp4`)} poster={sti(`/video/${o.data.video}.jpg`)} autoplay muted loop playsinline preload="metadata"></video>
-                ) : foerste && (
-                  <Image class="hoved" src={foerste} alt="" widths={[800, 1200, 1800]} sizes="(min-width: 900px) 70vw, 92vw" />
+                {/* Det første billede står stort. Er der en film, står den under det. Har opslaget kun en film, står filmen stort. */}
+                {foerste && <Image class="hoved" src={foerste} alt="" widths={[800, 1200, 1800]} sizes="(min-width: 900px) 70vw, 92vw" />}
+                {o.data.video && (
+                  <video class:list={['hoved', { film: !!foerste }]} src={sti(`/video/${o.data.video}.mp4`)} poster={sti(`/video/${o.data.video}.jpg`)} autoplay muted loop playsinline preload="metadata"></video>
                 )}
-                {(o.data.video ? billeder : resten).length > 0 && (
+                {resten.length > 0 && (
                   <div class="smaa">
-                    {(o.data.video ? billeder : resten).map((b) => <Image src={b} alt="" widths={[480, 800]} sizes="(min-width: 900px) 22vw, 45vw" />)}
+                    {resten.map((b) => <Image src={b} alt="" widths={[480, 800]} sizes="(min-width: 900px) 22vw, 45vw" />)}
                   </div>
                 )}
                 {o.harTekst && <div class="prosa" lang={o.tekstSprog !== sprog ? o.tekstSprog : undefined}><o.Content /></div>}
