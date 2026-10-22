@@ -9,11 +9,12 @@ vaegt: "ca. 450 kg"
 pris: "185.000 DKK ex. moms"
 status: "ledig"
 foto: ""
-# Billederne fra Kunsthal Charlottenborg
+# Fotografer: billederne med trægulvet fra Kunsthal Charlottenborg, og de sort-hvide med Kristian ved skulpturen
 fotografer:
   "01": "David Stjernholm"
   "02": "David Stjernholm"
   "03": "David Stjernholm"
+  "04": "Steen Troelsgaard"
 fokus: ""
 raekkefoelge: 999
 kladde: false

@@ -114,11 +114,11 @@ const kunstfondlogo = billede('sider/statens-kunstfond.png');
           {f.moerk_titel && <p class="maerke">{f.moerk_titel}</p>}
           <p class="lang">{f.moerk_tekst}</p>
           {f.moerk_link && <p class="kilde"><a href={vaerkAdresse(sprog, f.moerk_link)}>{alle.find((v) => v.id === f.moerk_link)?.data.titel ?? f.moerk_link}</a></p>}
+          {f.moerk_foto && <p class="fotokredit moerkfoto">{t.foto}: {f.moerk_foto}</p>}
         </div>
         {citatbillede && (
           <figure>
             <Image src={citatbillede} alt={`${i.navn} ${t.vedSisyfos}`} widths={[640, 1000, 1500]} sizes="(min-width: 900px) 45vw, 100vw" />
-            {f.moerk_foto && <figcaption class="fotokredit paa-billede">{t.foto}: {f.moerk_foto}</figcaption>}
           </figure>
         )}
       </div>
