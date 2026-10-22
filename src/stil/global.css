@@ -182,14 +182,6 @@ a {
   white-space: nowrap;
   line-height: 1.2;
 }
-.laas .streg {
-  display: block;
-  width: 28px;
-  height: 1px;
-  margin-top: 8px;
-  background: currentColor;
-  opacity: 0.6;
-}
 
 /* logoet i toppen står fast i hjørnet */
 .laas.fast {
