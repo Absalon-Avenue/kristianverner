@@ -14,7 +14,7 @@ fotografer:
   "01": "David Stjernholm"
   "02": "David Stjernholm"
   "03": "David Stjernholm"
-  "04": "Steen Troelsgaard"
+  "04": "Steen Tronsgaard"
 fokus: ""
 raekkefoelge: 999
 kladde: false
