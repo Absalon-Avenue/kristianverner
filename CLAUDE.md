@@ -87,7 +87,7 @@ pris: "28.000 DKK inkl. moms" # ALTID i anførselstegn, ellers læses 28.000 som
 status: ""                    # ledig, solgt, privateje, udstillet, proces, forslag. Eller fri tekst
 foto: ""                      # fotografens navn
 fokus: ""                     # hvis oversigten beskærer skævt: "center top", "left center" osv.
-raekkefoelge: 2               # lavt tal vises først
+raekkefoelge: 2               # værkerne står efter år, nyeste først. Dette tal afgør kun rækkefølgen inden for samme år
 kladde: false                 # true = findes kun lokalt, ikke på nettet
 ---
 

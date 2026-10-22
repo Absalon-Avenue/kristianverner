@@ -5,10 +5,12 @@ export async function vaerker({ medKladder = false } = {}) {
   const alle = await getCollection('vaerker');
   return alle
     .filter((v) => medKladder || !v.data.kladde)
+    // Tidsrækkefølge: nyeste øverst, ældste nederst. Værker uden årstal står øverst.
+    // Har to værker samme år, bestemmer raekkefoelge, hvilket der står først.
     .sort(
       (a, b) =>
+        Number(b.data.aar || 9999) - Number(a.data.aar || 9999) ||
         a.data.raekkefoelge - b.data.raekkefoelge ||
-        Number(b.data.aar || 0) - Number(a.data.aar || 0) ||
         a.data.titel.localeCompare(b.data.titel, 'da'),
     );
 }
