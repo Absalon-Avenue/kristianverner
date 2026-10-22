@@ -1,8 +1,8 @@
 ---
 titel: "Spejder"
 aar: 2023
-kategori: "Lampe"
-kort: "Håndlavet lampe i messing og kobber, kinetisk effekt."
+kategori: "Lysværk"
+kort: "Håndlavet lysværk i messing og kobber, kinetisk effekt."
 materiale: "Messing og kobber"
 maal: ""
 vaegt: ""

@@ -1,7 +1,7 @@
 ---
 titel: "Untitled"
 aar: 2017
-kategori: "Lampe"
+kategori: "Lysværk"
 kort: ""
 materiale: ""
 maal: ""

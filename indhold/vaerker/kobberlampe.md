@@ -1,7 +1,7 @@
 ---
 titel: "(mangler titel)"
 aar: ""
-kategori: "Lampe"
+kategori: "Lysværk"
 kort: ""
 materiale: ""
 maal: ""

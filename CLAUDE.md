@@ -78,7 +78,7 @@ Sitet findes på dansk (`/`), engelsk (`/en/`) og fransk (`/fr/`). Sprogene vise
 ---
 titel: "Megalit"
 aar: 2023
-kategori: "Skulptur"          # Skulptur, Lampe eller Installation
+kategori: "Skulptur"          # Skulptur, Lysværk eller Installation
 kort: "En linje under titlen."
 materiale: "Messing"
 maal: ""

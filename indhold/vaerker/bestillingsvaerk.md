@@ -1,7 +1,7 @@
 ---
 titel: "Bestillingsværk"
 aar: ""
-kategori: "Lampe"
+kategori: "Lysværk"
 kort: ""
 materiale: ""
 maal: ""

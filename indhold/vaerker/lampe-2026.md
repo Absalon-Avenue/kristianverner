@@ -1,7 +1,7 @@
 ---
 titel: "(mangler titel)"
 aar: 2026
-kategori: "Lampe"
+kategori: "Lysværk"
 kort: ""
 materiale: ""
 maal: ""
