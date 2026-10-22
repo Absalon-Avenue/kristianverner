@@ -26,6 +26,8 @@ const vaerker = defineCollection({
     foto: fritekst,
     // Fotograf pr. billede, fx "01": "David Stjernholm". Står under det billede.
     fotografer: z.record(z.string(), z.string()).nullish().transform((v) => v ?? {}),
+    // En film af værket: navnet på filen i public/video/ uden .mp4, fx "lysekrone". Står først blandt de ekstra billeder.
+    video: fritekst,
     fokus: fritekst,
     raekkefoelge: z.number().default(100),
     kladde: z.boolean().default(false),

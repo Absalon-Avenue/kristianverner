@@ -15,4 +15,6 @@ fakta:
     tekst: "Afgang 2023 (MFA degree show), Kunsthal Charlottenborg"
   - aar: "2023"
     tekst: "MFA in Sculpture, Royal Danish Academy of Fine Arts"
+  - aar: "2017"
+    tekst: "Pæne Ting (Nice Things), Galleri Christoffer Egelund"
 ---

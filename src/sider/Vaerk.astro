@@ -100,9 +100,14 @@ const data = {
       </div>
     ))}
 
-    {flere.length > 0 && (
+    {(flere.length > 0 || vaerk.data.video) && (
       <div class="ramme" style="padding-bottom:clamp(60px,9vw,130px)">
         <div class="vflere">
+          {vaerk.data.video && (
+            <figure class="vvideo">
+              <video src={sti(`/video/${vaerk.data.video}.mp4`)} poster={sti(`/video/${vaerk.data.video}.jpg`)} autoplay muted loop playsinline preload="metadata" aria-label={med_aar}></video>
+            </figure>
+          )}
           {flere.map((b, n) => (
             <figure>
               <Image src={b} alt={`${med_aar}, ${t.billede} ${n + 2}`} widths={[640, 1000, 1500]} sizes="(min-width: 620px) 46vw, 92vw" />

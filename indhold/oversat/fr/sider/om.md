@@ -15,4 +15,6 @@ fakta:
     tekst: "Afgang 2023 (exposition des diplômés), Kunsthal Charlottenborg"
   - aar: "2023"
     tekst: "Master en sculpture (MFA), Académie royale des beaux-arts du Danemark"
+  - aar: "2017"
+    tekst: "Pæne Ting (Jolies choses), Galleri Christoffer Egelund"
 ---

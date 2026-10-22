@@ -1020,6 +1020,11 @@ a {
   break-inside: avoid;
   background: var(--bone2);
 }
+.vflere video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .vflere img {
   width: 100%;
 }

@@ -15,4 +15,6 @@ fakta:
     tekst: "Afgang 2023, Kunsthal Charlottenborg"
   - aar: "2023"
     tekst: "MFA i billedhuggeri, Det Kgl. Danske Kunstakademi"
+  - aar: "2017"
+    tekst: "Pæne Ting, Galleri Christoffer Egelund"
 ---

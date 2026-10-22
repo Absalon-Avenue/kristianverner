@@ -1,6 +1,6 @@
 ---
-titel: "(mangler titel)"
-aar: ""
+titel: "Untitled"
+aar: 2017
 kategori: "Lampe"
 kort: ""
 materiale: ""
@@ -9,8 +9,8 @@ vaegt: ""
 pris: ""
 status: ""
 foto: ""
+video: "lysekrone"
 fokus: ""
-raekkefoelge: 21
-kladde: true
-mangler: "Titel, årstal, materialer, mål. Billedet står i porteføljens oversigt uden navn."
+raekkefoelge: 7
+kladde: false
 ---
