@@ -13,7 +13,7 @@ const navn = [d.titel, d.aar].filter(Boolean).join(', ');
 const alt = navn + (d.materiale ? `. ${d.materiale}` : '');
 const flere = billeder.length > 1;
 ---
-<article class="vkort" data-karrusel={flere ? '' : undefined}>
+<article class="vkort" data-karrusel={flere ? '' : undefined} data-glider={flere && d.glider ? '' : undefined}>
   <div class="billede">
     <div class="spor">
       {billeder.map((b, n) => (

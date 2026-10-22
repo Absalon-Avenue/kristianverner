@@ -28,6 +28,8 @@ const vaerker = defineCollection({
     fotografer: z.record(z.string(), z.string()).nullish().transform((v) => v ?? {}),
     // En film af værket: navnet på filen i public/video/ uden .mp4, fx "lysekrone". Står først blandt de ekstra billeder.
     video: fritekst,
+    // true = billederne i oversigten glider selv videre efter et par sekunder
+    glider: z.boolean().default(false),
     fokus: fritekst,
     raekkefoelge: z.number().default(100),
     kladde: z.boolean().default(false),

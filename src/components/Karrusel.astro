@@ -16,8 +16,9 @@
     marker();
 
     // Billederne glider selv videre, når kortet har været på skærmen et par sekunder.
-    // Det stopper, mens man peger på kortet eller selv bladrer, og hvis man har bedt om mindre bevægelse.
-    if (ro) return;
+    // Kun for værker med `glider: true`. Det stopper, mens man peger på kortet eller selv bladrer,
+    // og hvis man har bedt om mindre bevægelse.
+    if (ro || !kort.hasAttribute('data-glider')) return;
     let synlig = false, holdt = false, timer = 0;
     const naeste = () => {
       clearTimeout(timer);

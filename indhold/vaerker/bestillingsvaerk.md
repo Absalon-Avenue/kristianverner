@@ -11,5 +11,6 @@ status: ""
 foto: ""
 fokus: ""
 raekkefoelge: 5
+glider: true
 kladde: false
 ---
