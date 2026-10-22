@@ -1400,9 +1400,10 @@ a {
   padding: 4px 13px;
   text-decoration: none;
   color: var(--ink);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  /* samme skrift som navnet ved logoet: let, små versaler med god luft */
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   text-shadow: 0 0 10px rgba(248, 246, 242, 1), 0 0 4px rgba(248, 246, 242, 1), 0 0 1px rgba(248, 246, 242, 1);
 }
@@ -1440,8 +1441,8 @@ a {
     gap: 34px;
   }
   .tommel a {
-    font-size: 16px;
-    letter-spacing: 0.32em;
+    font-size: 12.5px;
+    letter-spacing: 0.3em;
     padding: 6px 16px;
   }
 }
