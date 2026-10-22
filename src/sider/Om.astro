@@ -12,7 +12,8 @@ const o = om.data as Record<string, any>;
 const i = await indstillinger(sprog);
 const { Content, harTekst, tekstSprog } = om;
 const portraet = billede('sider/portraet.jpg');
-const omtale = await omtaleListe(sprog);
+// Omtale står i tidsrækkefølge: nyeste øverst, ældste nederst.
+const omtale = (await omtaleListe(sprog)).sort((a, b) => Number(b.data.aar || 0) - Number(a.data.aar || 0));
 ---
 <Side titel={o.titel} beskrivelse={o.beskrivelse} aktiv="om" sprog={sprog} alternativer={alleSprog((s) => adresse(s, 'om'))}>
   <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
