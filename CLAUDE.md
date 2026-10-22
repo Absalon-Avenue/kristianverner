@@ -49,7 +49,7 @@ biografi. Det har én gang ført til opdigtede titler og et opdigtet citat på s
 Sitet findes på dansk (`/`), engelsk (`/en/`) og fransk (`/fr/`). Sprogene vises i rækkefølgen fransk, engelsk, dansk.
 
 - Introen på forsiden spørger om sprog, og man kommer først videre, når man har valgt. Valget huskes i browseren.
-  Sprogvalget findes også som FR, EN, DA under menuen i højre side.
+  Sprogvalget findes også i bunden af hver side, over adressen.
 - Faste ord (menu, knapper, formularen, kategorier, status) og adresserne står i `src/lib/sprog.ts`.
 - Oversættelserne af teksterne ligger i `indhold/oversat/en/` og `indhold/oversat/fr/` med samme filnavn som den
   danske fil, fx `indhold/oversat/fr/vaerker/sisyfos.md`. Kun tekstfelterne står i dem. Et tomt felt viser den danske tekst.

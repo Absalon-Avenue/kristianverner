@@ -9,7 +9,7 @@ import Tommelmenu from '../components/Tommelmenu.astro';
 import Karrusel from '../components/Karrusel.astro';
 import { indstillinger } from '../lib/indhold';
 import { sti } from '../lib/sti';
-import { ord, adresse as sideAdresse, LOCALE, SPROGLISTE, type Sprog } from '../lib/sprog';
+import { ord, adresse as sideAdresse, LOCALE, SPROGLISTE, SPROGNAVN, type Sprog } from '../lib/sprog';
 
 // sprog: sidens sprog. alternativer: den samme side på de andre sprog, fx { fr: '/fr/', en: '/en/', da: '/' }.
 const { titel, beskrivelse = '', overVideo = false, aktiv = '', delebillede, ekstraData, sprog = 'da' as Sprog, alternativer } = Astro.props;
@@ -81,7 +81,7 @@ const menu = [
       <Laas navn={i.firmanavn} tegnes={overVideo} fast hjem={sideAdresse(sprog, 'forside')} hjemTekst={t.forside} />
     </header>
 
-    <Tommelmenu menu={menu} aktiv={aktiv} sprog={sprog} andre={andre} etiket={t.menu} sprogEtiket={t.vaelgSprog} />
+    <Tommelmenu menu={menu} aktiv={aktiv} etiket={t.menu} />
 
     <main><slot /></main>
     <Karrusel />
@@ -114,6 +114,12 @@ const menu = [
     <footer class="bund">
       <div class="ramme raekke">
         <Laas navn={i.firmanavn} hjem={sideAdresse(sprog, 'forside')} hjemTekst={t.forside} />
+        <div class="bundhoejre">
+        <nav class="bundsprog" aria-label={t.vaelgSprog}>
+          {SPROGLISTE.map((s) => (
+            <a href={andre[s]} hreflang={s} lang={s} data-sprog={s} aria-current={s === sprog ? 'true' : undefined}>{SPROGNAVN[s]}</a>
+          ))}
+        </nav>
         <p class="oplysninger">
           {i.adresse}<br />
           CVR {i.cvr}
@@ -125,7 +131,14 @@ const menu = [
             </>
           )}
         </p>
+        </div>
       </div>
     </footer>
+    <script>
+      // Sitet husker det sprog, man har valgt, så introen ikke spørger igen næste gang.
+      document.querySelectorAll<HTMLAnchorElement>('.bundsprog [data-sprog]').forEach((a) =>
+        a.addEventListener('click', () => { try { localStorage.setItem('sprog', a.dataset.sprog!); } catch {} }),
+      );
+    </script>
   </body>
 </html>

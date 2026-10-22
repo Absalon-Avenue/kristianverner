@@ -1204,6 +1204,40 @@ a {
 .bund .oplysninger a {
   text-decoration: none;
 }
+/* sprogvalget i bunden, over adressen */
+.bundhoejre {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+.bundsprog {
+  display: flex;
+  gap: 22px;
+}
+.bundsprog a {
+  position: relative;
+  padding-bottom: 3px;
+  font-size: 11.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--daempet);
+  transition: color 0.3s;
+}
+.bundsprog a:hover,
+.bundsprog a[aria-current="true"] {
+  color: var(--ink);
+}
+.bundsprog a[aria-current="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0.22em;
+  bottom: 0;
+  height: 1px;
+  background: var(--messing);
+}
 .bund .oplysninger a:hover {
   color: var(--ink);
 }
@@ -1325,37 +1359,7 @@ a {
 .tommel a:hover {
   opacity: 0.6;
 }
-/* sprogvalget under menuen: små, vandrette bogstaver */
-.tommel .sprogvalg {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-.tommel .sprogvalg .streg {
-  width: 1px;
-  height: 24px;
-  margin-bottom: 6px;
-  background: currentColor;
-  opacity: 0.3;
-}
-.tommel a.sprog {
-  writing-mode: horizontal-tb;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  padding: 5px 8px;
-  opacity: 0.5;
-}
-.tommel a.sprog[aria-current="true"] {
-  opacity: 1;
-}
-.tommel a.sprog[aria-current="true"]::before { display: none; }
-.tommel a.sprog[aria-current="true"] {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-}
-.tommel a.sprog:hover { opacity: 0.8; }
+
 /* på computeren lidt større og med mere luft */
 @media (min-width: 901px) {
   .tommel {
@@ -1408,6 +1412,7 @@ a {
   .gitter { grid-template-columns: minmax(0, 1fr); }
   .vflere { columns: 1; }
   .bund .oplysninger { text-align: left; }
+  .bundhoejre { align-items: flex-start; }
   .naeste { flex-direction: column; }
   .naeste a { max-width: none; }
   .naeste .frem { text-align: left; margin-left: 0; }
