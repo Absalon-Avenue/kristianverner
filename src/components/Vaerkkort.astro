@@ -3,11 +3,12 @@
 // stryg på telefonen, eller brug pilene på computeren. Klik på billedet åbner værket.
 import { Image } from 'astro:assets';
 import { billederTil } from '../lib/billeder';
-import { sti } from '../lib/sti';
-const { vaerk, sizes = '(min-width: 900px) 33vw, 92vw', straks = false } = Astro.props;
+import { vaerkAdresse, ord, kategoriTekst } from '../lib/sprog';
+const { vaerk, sizes = '(min-width: 900px) 33vw, 92vw', straks = false, sprog = 'da' } = Astro.props;
+const t = ord(sprog);
 const d = vaerk.data;
 const billeder = billederTil(vaerk.id);
-const href = sti(`/vaerker/${vaerk.id}/`);
+const href = vaerkAdresse(sprog, vaerk.id);
 const navn = [d.titel, d.aar].filter(Boolean).join(', ');
 const alt = navn + (d.materiale ? `. ${d.materiale}` : '');
 const flere = billeder.length > 1;
@@ -30,10 +31,10 @@ const flere = billeder.length > 1;
     </div>
     {flere && (
       <>
-        <button class="blad tilbage" type="button" aria-label={`Forrige billede af ${d.titel}`}>
+        <button class="blad tilbage" type="button" aria-label={`${t.forrigeBillede} ${d.titel}`}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8" /></svg>
         </button>
-        <button class="blad frem" type="button" aria-label={`Næste billede af ${d.titel}`}>
+        <button class="blad frem" type="button" aria-label={`${t.naesteBillede} ${d.titel}`}>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8" /></svg>
         </button>
         <div class="prikker" aria-hidden="true">{billeder.map(() => <span></span>)}</div>
@@ -44,5 +45,5 @@ const flere = billeder.length > 1;
     <h3>{d.titel}</h3>
     {d.aar && <span class="aar">{d.aar}</span>}
   </a>
-  {d.kategori && <p class="slags">{d.kategori}</p>}
+  {d.kategori && <p class="slags">{kategoriTekst(d.kategori, sprog)}</p>}
 </article>

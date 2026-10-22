@@ -408,16 +408,25 @@ a {
   display: none;
 }
 .intro .intro-skaerm {
+  display: contents;
+}
+.intro .intro-lag {
   position: fixed;
   inset: 0;
   z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--dyb);
   color: #fff;
   cursor: pointer;
 }
+/* Det sorte lag med logo og navn i hvidt. Multiply gør det hvide gennemsigtigt, så filmen ses gennem dem. */
+.intro .intro-vindue {
+  /* helt sort, ellers skinner filmen svagt igennem det sorte */
+  background: #000;
+  mix-blend-mode: multiply;
+}
+
 .intro .laas.fast,
 .intro .tommel,
 .intro .lydknap {
@@ -444,6 +453,76 @@ a {
   opacity: 1;
   transform: none;
 }
+/* sprogvalget på introen: tre ord under navnet, også skåret ud som vinduer */
+.intro-sprog {
+  display: none;
+}
+.intro .intro-sprog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% + clamp(70px, 9vw, 110px));
+  display: flex;
+  justify-content: center;
+  gap: clamp(26px, 5vw, 64px);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.intro .intro-sprog.vist {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.intro-sprog a {
+  position: relative;
+  padding: 10px 2px;
+  color: #fff;
+  text-decoration: none;
+  font-size: clamp(12px, 1.25vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+/* en tynd streg under det sprog, man peger på, også som vindue */
+.intro-sprog a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0.3em;
+  bottom: 4px;
+  height: 1px;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--rolig);
+}
+.intro-sprog a:hover::after,
+.intro-sprog a:focus-visible::after {
+  transform: scaleX(1);
+}
+.intro-sprog a:focus-visible { outline: none; }
+/* når introen fortsætter efter et sprogvalg, står logo og navn fremme med det samme */
+.intro-videre .intro-laas,
+.intro-videre .intro-laas * {
+  animation: none !important;
+  transition: none !important;
+}
+.intro-videre .intro-laas .tegnes path,
+.intro-videre .intro-laas .tegnes circle {
+  stroke-dashoffset: 0;
+}
+/* mens man skal vælge sprog, kan siden bagved ikke scrolles */
+.intro-vaelg,
+.intro-vaelg body {
+  overflow: hidden;
+}
+.intro-vaelg .intro-lag {
+  cursor: default;
+}
+
 /* logoet tegner sig lidt hurtigere i introen */
 .intro-laas .tegnes path,
 .intro-laas .tegnes circle {
@@ -1235,6 +1314,37 @@ a {
 .tommel a:hover {
   opacity: 0.6;
 }
+/* sprogvalget under menuen: små, vandrette bogstaver */
+.tommel .sprogvalg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.tommel .sprogvalg .streg {
+  width: 1px;
+  height: 24px;
+  margin-bottom: 6px;
+  background: currentColor;
+  opacity: 0.3;
+}
+.tommel a.sprog {
+  writing-mode: horizontal-tb;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  padding: 5px 8px;
+  opacity: 0.5;
+}
+.tommel a.sprog[aria-current="true"] {
+  opacity: 1;
+}
+.tommel a.sprog[aria-current="true"]::before { display: none; }
+.tommel a.sprog[aria-current="true"] {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.tommel a.sprog:hover { opacity: 0.8; }
 /* på computeren lidt større og med mere luft */
 @media (min-width: 901px) {
   .tommel {

@@ -1,0 +1,16 @@
+---
+titel: "À propos de Kristian Verner | Sculpteur franco-danois"
+beskrivelse: "Kristian Verner Norden Minthe, né en 1996, est un sculpteur franco-danois, diplômé de l’Académie royale des beaux-arts du Danemark en 2023. Lauréat du prix des jeunes talents 2025 de la Fondation Carl Nielsen et Anne Marie Carl-Nielsen."
+linje: "Kristian Verner Norden Minthe, né en 1996, est un sculpteur franco-danois. Diplômé de l’Académie royale des beaux-arts du Danemark en 2023."
+fakta:
+  - aar: "2025"
+    tekst: "Prix des jeunes talents, Fondation Carl Nielsen et Anne Marie Carl-Nielsen"
+  - aar: "2025"
+    tekst: "Six mois à Paris auprès du sculpteur Pierre Yermia"
+  - aar: "2024"
+    tekst: "Blue Canvas Projects"
+  - aar: "2023"
+    tekst: "Afgang 2023 (exposition des diplômés), Kunsthal Charlottenborg"
+  - aar: "2023"
+    tekst: "Master en sculpture (MFA), Académie royale des beaux-arts du Danemark"
+---

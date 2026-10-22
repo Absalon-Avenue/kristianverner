@@ -9,11 +9,15 @@ import Tommelmenu from '../components/Tommelmenu.astro';
 import Karrusel from '../components/Karrusel.astro';
 import { indstillinger } from '../lib/indhold';
 import { sti } from '../lib/sti';
+import { ord, adresse as sideAdresse, LOCALE, SPROGLISTE, type Sprog } from '../lib/sprog';
 
-const { titel, beskrivelse = '', overVideo = false, aktiv = '', delebillede, ekstraData } = Astro.props;
-const i = await indstillinger();
+// sprog: sidens sprog. alternativer: den samme side på de andre sprog, fx { fr: '/fr/', en: '/en/', da: '/' }.
+const { titel, beskrivelse = '', overVideo = false, aktiv = '', delebillede, ekstraData, sprog = 'da' as Sprog, alternativer } = Astro.props;
+const i = await indstillinger(sprog);
+const t = ord(sprog);
 const adresse = new URL(Astro.url.pathname, Astro.site).href;
 const rod = new URL(sti('/'), Astro.site).href;
+const andre = alternativer ?? { da: sti('/'), en: sideAdresse('en', 'forside'), fr: sideAdresse('fr', 'forside') };
 const og = new URL(delebillede ?? sti('/og.jpg'), Astro.site).href;
 
 const person = {
@@ -39,13 +43,13 @@ const person = {
 // Måling kører kun på det færdige site, ikke mens der arbejdes lokalt.
 const maal = import.meta.env.PROD && i.umami_id;
 const menu = [
-  { href: sti('/vaerker/'), tekst: 'Værker', id: 'vaerker' },
-  { href: sti('/om/'), tekst: 'Om', id: 'om' },
-  { href: sti('/kontakt/'), tekst: 'Kontakt', id: 'kontakt' },
+  { href: sideAdresse(sprog, 'vaerker'), tekst: t.vaerker, id: 'vaerker' },
+  { href: sideAdresse(sprog, 'om'), tekst: t.om, id: 'om' },
+  { href: sideAdresse(sprog, 'kontakt'), tekst: t.kontakt, id: 'kontakt' },
 ];
 ---
 <!doctype html>
-<html lang="da">
+<html lang={sprog}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -53,6 +57,8 @@ const menu = [
     <title>{titel}</title>
     {beskrivelse && <meta name="description" content={beskrivelse} />}
     <link rel="canonical" href={adresse} />
+    {alternativer && SPROGLISTE.map((s) => <link rel="alternate" hreflang={s} href={new URL(alternativer[s], Astro.site).href} />)}
+    {alternativer && <link rel="alternate" hreflang="x-default" href={new URL(alternativer.da, Astro.site).href} />}
     <link rel="icon" type="image/svg+xml" href={sti('/favicon.svg')} />
     <link rel="sitemap" href={sti('/sitemap-index.xml')} />
     <meta name="theme-color" content="#f8f6f2" />
@@ -62,7 +68,7 @@ const menu = [
     {beskrivelse && <meta property="og:description" content={beskrivelse} />}
     <meta property="og:url" content={adresse} />
     <meta property="og:image" content={og} />
-    <meta property="og:locale" content="da_DK" />
+    <meta property="og:locale" content={LOCALE[sprog]} />
     <meta name="twitter:card" content="summary_large_image" />
     {i.google_verifikation && <meta name="google-site-verification" content={i.google_verifikation} />}
     {maal && <script defer src="https://cloud.umami.is/script.js" data-website-id={i.umami_id}></script>}
@@ -72,10 +78,10 @@ const menu = [
   <body>
     <Lys />
     <header class:list={['top', { 'over-video': overVideo }]}>
-      <Laas navn={i.firmanavn} tegnes={overVideo} fast />
+      <Laas navn={i.firmanavn} tegnes={overVideo} fast hjem={sideAdresse(sprog, 'forside')} hjemTekst={t.forside} />
     </header>
 
-    <Tommelmenu menu={menu} aktiv={aktiv} />
+    <Tommelmenu menu={menu} aktiv={aktiv} sprog={sprog} andre={andre} etiket={t.menu} sprogEtiket={t.vaelgSprog} />
 
     <main><slot /></main>
     <Karrusel />
@@ -107,7 +113,7 @@ const menu = [
 
     <footer class="bund">
       <div class="ramme raekke">
-        <Laas navn={i.firmanavn} />
+        <Laas navn={i.firmanavn} hjem={sideAdresse(sprog, 'forside')} hjemTekst={t.forside} />
         <p class="oplysninger">
           {i.adresse}<br />
           CVR {i.cvr}

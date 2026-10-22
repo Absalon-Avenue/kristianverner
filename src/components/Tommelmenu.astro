@@ -1,12 +1,26 @@
 ---
 // Menuen på telefoner: står i højre side, hvor tommelfingeren er.
 // Den glider væk, når man scroller ned, og kommer tilbage, når man scroller op.
-const { menu, aktiv = '' } = Astro.props;
+// Under menuen står sprogvalget: FR, EN, DA. Hvert fører til den samme side på det sprog.
+import { SPROGLISTE, KORT, SPROGNAVN } from '../lib/sprog';
+const { menu, aktiv = '', sprog = 'da', andre, etiket = 'Menu', sprogEtiket = 'Sprog' } = Astro.props;
 ---
-<nav class="tommel" aria-label="Menu">
+<nav class="tommel" aria-label={etiket}>
   {menu.map((m: any) => <a href={m.href} aria-current={aktiv === m.id ? 'page' : undefined}>{m.tekst}</a>)}
+  {andre && (
+    <div class="sprogvalg" role="group" aria-label={sprogEtiket}>
+      <span class="streg" aria-hidden="true"></span>
+      {SPROGLISTE.map((s) => (
+        <a class="sprog" href={andre[s]} hreflang={s} lang={s} data-sprog={s} title={SPROGNAVN[s]} aria-current={s === sprog ? 'true' : undefined}>{KORT[s]}</a>
+      ))}
+    </div>
+  )}
 </nav>
 <script>
+  // Sitet husker det sprog, man har valgt, så introen ikke spørger igen næste gang.
+  document.querySelectorAll<HTMLAnchorElement>('.tommel [data-sprog]').forEach((a) =>
+    a.addEventListener('click', () => { try { localStorage.setItem('sprog', a.dataset.sprog!); } catch {} }),
+  );
   const nav = document.querySelector<HTMLElement>('.tommel');
   if (nav) {
     let sidst = scrollY, vent = 0;

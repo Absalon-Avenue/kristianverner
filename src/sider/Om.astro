@@ -1,0 +1,65 @@
+---
+import { Image } from 'astro:assets';
+import Side from '../layouts/Side.astro';
+import { side, indstillinger, paaSprog, omtaleListe } from '../lib/indhold';
+import { billede } from '../lib/billeder';
+import { ord, adresse, alleSprog, type Sprog } from '../lib/sprog';
+
+const { sprog = 'da' as Sprog } = Astro.props;
+const t = ord(sprog);
+const om = await paaSprog(await side('om'), sprog, 'sider');
+const o = om.data as Record<string, any>;
+const i = await indstillinger(sprog);
+const { Content, harTekst, tekstSprog } = om;
+const portraet = billede('sider/portraet.jpg');
+const omtale = await omtaleListe(sprog);
+---
+<Side titel={o.titel} beskrivelse={o.beskrivelse} aktiv="om" sprog={sprog} alternativer={alleSprog((s) => adresse(s, 'om'))}>
+  <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
+    <div class="ramme om" style="align-items:start">
+      {portraet && (
+        <div class="portraet">
+          <Image src={portraet} alt={`${t.portraet} ${i.navn}`} widths={[420, 640, 873]} sizes="(min-width: 900px) 38vw, 380px" loading="eager" />
+        </div>
+      )}
+      <div class="tekst">
+        <p class="maerke" style="margin-bottom:22px">{i.fag}</p>
+        <h1 class="stor" style="margin-bottom:34px">{i.navn}</h1>
+        {o.linje && <p class="ledetekst">{o.linje}</p>}
+        {harTekst && <div class="prosa" style="margin-top:30px" lang={tekstSprog !== sprog ? tekstSprog : undefined}><Content /></div>}
+        <div class="valg"><a class="knap" href={adresse(sprog, 'kontakt')}>{t.kontakt}</a></div>
+      </div>
+    </div>
+  </section>
+
+  {(o.fakta?.length > 0 || omtale.length > 0) && (
+    <section class="afsnit" style="padding-top:0">
+      <div class="ramme kontakt">
+        {o.fakta?.length > 0 && (
+          <div>
+            <p class="maerke" style="margin-bottom:26px">{t.kortFortalt}</p>
+            <ul class="fakta">
+              {o.fakta.map((r: any) => (<li><span class="aar">{r.aar}</span><span>{r.tekst}</span></li>))}
+            </ul>
+          </div>
+        )}
+        {omtale.length > 0 && (
+          <div>
+            <p class="maerke" style="margin-bottom:26px">{t.omtale}</p>
+            <ul class="fakta">
+              {omtale.map((m) => (
+                <li>
+                  <span class="aar">{m.data.aar}</span>
+                  <span>
+                    {m.data.link ? <a href={m.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={m.data.kilde}>{m.data.kilde}</a> : m.data.kilde}
+                    {m.data.titel && <>. {m.data.titel}</>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+</Side>

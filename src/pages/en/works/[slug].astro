@@ -1,0 +1,6 @@
+---
+import Vaerk from '../../../sider/Vaerk.astro';
+import { vaerkSider } from '../../../lib/indhold';
+export const getStaticPaths = () => vaerkSider('en');
+---
+<Vaerk {...Astro.props} />

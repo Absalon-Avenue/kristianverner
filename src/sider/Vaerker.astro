@@ -1,0 +1,26 @@
+---
+import Side from '../layouts/Side.astro';
+import Vaerkkort from '../components/Vaerkkort.astro';
+import { vaerkerPaaSprog, indstillinger } from '../lib/indhold';
+import { ord, adresse, alleSprog, type Sprog } from '../lib/sprog';
+const { sprog = 'da' as Sprog } = Astro.props;
+const t = ord(sprog);
+const alle = await vaerkerPaaSprog(sprog);
+const i = await indstillinger(sprog);
+---
+<Side
+  titel={`${t.vaerker} | ${i.firmanavn}`}
+  beskrivelse={t.vaerkerBeskrivelse(i.navn)}
+  aktiv="vaerker"
+  sprog={sprog}
+  alternativer={alleSprog((s) => adresse(s, 'vaerker'))}
+>
+  <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
+    <div class="ramme">
+      <h1 class="stor" style="margin-bottom:clamp(44px,7vw,100px)">{t.vaerker}</h1>
+      <div class="gitter">
+        {alle.map((v, n) => <Vaerkkort vaerk={v} sprog={sprog} straks={n < 3} />)}
+      </div>
+    </div>
+  </section>
+</Side>

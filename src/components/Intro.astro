@@ -1,27 +1,48 @@
 ---
 // Introen på forsiden: sort skærm, logoet tegner sig selv, navnet folder sig ud,
-// og begge flyver op i hjørnet, mens filmen kommer frem bagved.
-// Vises, når man kommer udefra, ikke når man klikker rundt på sitet. Kan springes over med et klik.
+// og under dem står de tre sprog: Français, English, Dansk.
+// Logo, navn og sprog er skåret ud af det sorte som et vindue, så filmen ses gennem dem.
+// Det sorte lag har dem i hvidt og blandes med filmen (mix-blend-mode: multiply), så det hvide bliver gennemsigtigt.
+//
+// Man kommer først videre, når man har valgt et sprog. Så flyver logo og navn op i hjørnet, og filmen kommer frem.
+// Vælger man et andet sprog end sidens, går man til forsiden på det sprog.
+// Sitet husker valget. Har man valgt før, kører introen videre af sig selv, og et klik springer den over.
+//
+// Vises, når man kommer udefra, ikke når man klikker rundt på sitet. `?intro` i adressen viser den altid.
 // Slås fra helt med `intro: false` i indhold/sider/forside.md.
 import Logo from './Logo.astro';
-const { navn } = Astro.props;
+import { SPROGLISTE, SPROGNAVN, adresse, ord } from '../lib/sprog';
+const { navn, sprog = 'da' } = Astro.props;
 ---
-<div class="intro-skaerm" aria-hidden="true">
-  <div class="laas intro-laas">
-    <span class="segl"><Logo tegnes /></span>
-    <span class="tekst"><span class="navn">{navn}</span><span class="streg"></span></span>
+<div class="intro-skaerm" data-sprog={sprog}>
+  <div class="intro-lag intro-vindue">
+    <div class="laas intro-laas" aria-hidden="true">
+      <span class="segl"><Logo tegnes /></span>
+      <span class="tekst"><span class="navn">{navn}</span></span>
+    </div>
+    <nav class="intro-sprog" aria-label={ord(sprog).vaelgSprog}>
+      {SPROGLISTE.map((s) => (
+        <a href={adresse(s, 'forside')} hreflang={s} lang={s} data-sprog={s}>{SPROGNAVN[s]}</a>
+      ))}
+    </nav>
   </div>
 </div>
 
 <script>
   const rod = document.documentElement;
   const skaerm = document.querySelector<HTMLElement>('.intro-skaerm');
+  const vindue = document.querySelector<HTMLElement>('.intro-vindue');
   const laas = document.querySelector<HTMLElement>('.intro-laas');
+  const valg = document.querySelector<HTMLElement>('.intro-sprog');
   const maal = document.querySelector<HTMLElement>('.laas.fast');
 
-  if (rod.classList.contains('intro') && skaerm && laas && maal) {
+  if (rod.classList.contains('intro') && skaerm && vindue && laas && valg && maal) {
+    const sideSprog = skaerm.dataset.sprog ?? 'da';
     let faerdig = false;
     const timere: number[] = [];
+    let husket = '';
+    try { husket = localStorage.getItem('sprog') ?? ''; } catch {}
+    const husk = (s: string) => { try { localStorage.setItem('sprog', s); } catch {} };
 
     // Intrologoet skal ende præcis som logoet i toppen. Det skaleres op, så det fylder pænt midt på skærmen.
     const m = maal.getBoundingClientRect();
@@ -32,10 +53,12 @@ const { navn } = Astro.props;
       if (faerdig) return;
       faerdig = true;
       timere.forEach(clearTimeout);
+      rod.classList.remove('intro-vaelg');
+      const varighed = hurtigt ? 350 : 1100;
+      valg.classList.remove('vist');
       laas.classList.add('udfoldet');
       const fra = laas.getBoundingClientRect();
       const til = maal.getBoundingClientRect();
-      const varighed = hurtigt ? 350 : 1100;
       laas.style.transformOrigin = '0 0';
       laas.style.position = 'fixed';
       laas.style.left = `${fra.left}px`;
@@ -48,23 +71,57 @@ const { navn } = Astro.props;
         ],
         { duration: varighed, easing: 'cubic-bezier(0.65, 0, 0.2, 1)', fill: 'forwards' },
       );
-      skaerm.animate([{ backgroundColor: 'rgba(16,14,10,1)' }, { backgroundColor: 'rgba(16,14,10,0)' }], {
+      // Det sorte forsvinder, så hele filmen kommer frem. Navnet går i ét med filmen og bliver til navnet i toppen.
+      vindue.animate([{ backgroundColor: 'rgba(0,0,0,1)' }, { backgroundColor: 'rgba(0,0,0,0)' }], {
         duration: varighed,
         delay: hurtigt ? 0 : 120,
         easing: 'ease-out',
         fill: 'forwards',
       });
       flyv.finished.then(() => {
-        rod.classList.remove('intro');
+        rod.classList.remove('intro', 'intro-videre');
         skaerm.remove();
       });
     };
 
-    // Tider i millisekunder: navnet folder sig ud, logo og navn står et øjeblik, og så flyver de op.
-    timere.push(window.setTimeout(() => laas.classList.add('udfoldet'), 1200));
-    timere.push(window.setTimeout(() => slut(), 3700));
-    ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((h) =>
-      addEventListener(h, () => slut(true), { once: true, passive: true }),
+    // Et klik på et sprog: samme sprog som siden kører introen færdig, et andet sprog går til forsiden på det sprog.
+    valg.querySelectorAll<HTMLAnchorElement>('a[data-sprog]').forEach((a) =>
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const valgt = a.dataset.sprog!;
+        husk(valgt);
+        if (valgt === sideSprog) return slut();
+        faerdig = true;
+        timere.forEach(clearTimeout);
+        valg.classList.remove('vist');
+        try { sessionStorage.setItem('introVidere', '1'); } catch {}
+        window.setTimeout(() => { location.href = a.href; }, 450);
+      }),
     );
+
+    // Kommer man fra introen på et andet sprog, står logo og navn allerede fremme, og filmen kommer frem med det samme.
+    if (rod.classList.contains('intro-videre')) {
+      laas.classList.add('udfoldet');
+      window.setTimeout(() => slut(), 250);
+    } else {
+    // Tider i millisekunder: navnet folder sig ud, og sprogene kommer frem under det.
+    timere.push(window.setTimeout(() => laas.classList.add('udfoldet'), 1200));
+    timere.push(window.setTimeout(() => valg.classList.add('vist'), 2400));
+
+    if (husket) {
+      // Har man valgt sprog før, kører introen videre af sig selv, og et klik eller en tast springer den over.
+      timere.push(window.setTimeout(() => slut(), 4600));
+      ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((h) =>
+        addEventListener(
+          h,
+          (e) => { if (!(e.target as Element | null)?.closest?.('.intro-sprog')) slut(true); },
+          { once: true, passive: true },
+        ),
+      );
+    } else {
+      // Første besøg: man skal vælge sprog for at komme videre.
+      rod.classList.add('intro-vaelg');
+    }
+    }
   }
 </script>

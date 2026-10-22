@@ -44,6 +44,20 @@ biografi. Det har én gang ført til opdigtede titler og et opdigtet citat på s
 - Retter du i hans tekst (stavefejl, tegnsætning), så sig præcist hvad du har rettet.
 - Ingen tankestreger i tekst, du selv skriver. Kort og direkte dansk.
 
+## Sprog
+
+Sitet findes på dansk (`/`), engelsk (`/en/`) og fransk (`/fr/`). Sprogene vises i rækkefølgen fransk, engelsk, dansk.
+
+- Introen på forsiden spørger om sprog, og man kommer først videre, når man har valgt. Valget huskes i browseren.
+  Sprogvalget findes også som FR, EN, DA under menuen i højre side.
+- Faste ord (menu, knapper, formularen, kategorier, status) og adresserne står i `src/lib/sprog.ts`.
+- Oversættelserne af teksterne ligger i `indhold/oversat/en/` og `indhold/oversat/fr/` med samme filnavn som den
+  danske fil, fx `indhold/oversat/fr/vaerker/sisyfos.md`. Kun tekstfelterne står i dem. Et tomt felt viser den danske tekst.
+- Kristian har sagt ja til, at teksterne oversættes, så længe de er flydende og siger det samme som den danske tekst.
+  Ret den danske tekst, så ret også oversættelserne. Nyt værk: lav også oversættelsesfilerne. Titler på værker
+  oversættes ikke, undtagen beskrivende titler som Bestillingsværk.
+- Siderne selv ligger i `src/sider/`. Filerne i `src/pages/` laver kun adresserne på de tre sprog.
+
 ## Hvor tingene ligger
 
 | Mappe | Hvad |
@@ -154,5 +168,4 @@ værksiderne viser dem ubeskåret.
 
 - Logoet i `src/components/Logo.astro` er tegnet op efter et foto af visitkortet. Den rigtige vektorfil mangler.
 - Mailadressen er hans private gmail, indtil der findes en på domænet.
-- Engelsk og fransk version er ikke bygget. Se `noter/seo-og-markedsrapport.md` afsnit A og 5.
 - Fotografer er ikke krediteret. Flere af Sisyfos-billederne er tydeligt taget af professionelle.

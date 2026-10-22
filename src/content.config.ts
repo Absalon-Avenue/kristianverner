@@ -52,4 +52,11 @@ const omtale = defineCollection({
   }),
 });
 
-export const collections = { vaerker, sider, omtale };
+// Oversættelser til engelsk og fransk. Samme filnavn som den danske fil, i indhold/oversat/en/ og indhold/oversat/fr/.
+// Kun tekstfelterne står i dem. Et tomt eller manglende felt viser den danske tekst.
+const oversat = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './indhold/oversat' }),
+  schema: z.looseObject({}),
+});
+
+export const collections = { vaerker, sider, omtale, oversat };

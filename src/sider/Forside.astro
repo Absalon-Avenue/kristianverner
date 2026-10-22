@@ -1,0 +1,186 @@
+---
+import { Image } from 'astro:assets';
+import Side from '../layouts/Side.astro';
+import Vaerkkort from '../components/Vaerkkort.astro';
+import Intro from '../components/Intro.astro';
+import { side, indstillinger, paaSprog, omtaleListe, vaerkerPaaSprog } from '../lib/indhold';
+import { billede } from '../lib/billeder';
+import { sti } from '../lib/sti';
+import { ord, adresse, vaerkAdresse, alleSprog, type Sprog } from '../lib/sprog';
+
+const { sprog = 'da' as Sprog } = Astro.props;
+const t = ord(sprog);
+const forside = await paaSprog(await side('forside'), sprog, 'sider');
+const om = await paaSprog(await side('om'), sprog, 'sider');
+const i = await indstillinger(sprog);
+const f = forside.data as Record<string, any>;
+const alle = await vaerkerPaaSprog(sprog);
+const omtale = await omtaleListe(sprog);
+const citater = omtale.filter((o) => o.data.forside && o.data.citat);
+const [aabning, moerk] = citater;
+// Priser og legater uden citat står som en kort linje mellem de to sidste felter.
+const udmaerkelser = omtale.filter((o) => o.data.forside && !o.data.citat);
+
+const EgenTekst = forside.Content;
+const harEgenTekst = forside.harTekst;
+const skitse = billede('sider/lampe.jpg');
+const portraet = billede('sider/portraet.jpg');
+const citatbillede = billede('sider/citat.jpg');
+const kunstfondlogo = billede('sider/statens-kunstfond.png');
+---
+<Side titel={f.titel} beskrivelse={f.beskrivelse} overVideo sprog={sprog} alternativer={alleSprog((s) => adresse(s, 'forside'))}>
+  {f.intro !== false && (
+    <script is:inline slot="hoved">
+      // Introen kører, når man kommer udefra: fra Google, Instagram, et link eller en indtastet adresse.
+      // Den kører ikke, når man klikker rundt inde på sitet eller trykker tilbage.
+      // ?intro i adressen viser den altid, fx når sitet skal vises frem.
+      try {
+        var nav = performance.getEntriesByType('navigation')[0];
+        var tilbage = nav && nav.type === 'back_forward';
+        var indefra = false;
+        try { indefra = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+        var vis = /[?&]intro\b/.test(location.search) || (!tilbage && !indefra);
+        // Har man lige valgt et andet sprog på introen, fortsætter introen her, hvor den slap.
+        var videre = false;
+        try { videre = sessionStorage.getItem('introVidere') === '1'; sessionStorage.removeItem('introVidere'); } catch (e) {}
+        if (videre) {
+          document.documentElement.classList.add('intro', 'intro-videre');
+        } else if (vis && !matchMedia('(prefers-reduced-motion: reduce)').matches && scrollY < 40) {
+          document.documentElement.classList.add('intro');
+        }
+      } catch (e) {}
+    </script>
+  )}
+  {f.intro !== false && <Intro navn={i.firmanavn} sprog={sprog} />}
+  <section class="helt" data-moerk>
+    <img class="still" src={sti('/video/forside.jpg')} alt="" />
+    <video autoplay muted loop playsinline preload="metadata" poster={sti('/video/forside.jpg')} aria-hidden="true">
+      <source src={sti('/video/forside.mp4')} type="video/mp4" />
+    </video>
+    <div class="slor"></div>
+    {f.lyd && (
+      <button class="lydknap" type="button" aria-pressed="false" aria-label={t.lydTil} data-til={t.lydTil} data-fra={t.lydFra}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+          <path class="slukket" d="m16 9.5 5 5m0-5-5 5" />
+          <path class="taendt" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11" />
+        </svg>
+      </button>
+    )}
+    <div class="indhold">
+      <div>
+        {f.linje && <p class="maerke">{f.linje}</p>}
+        <h1>{i.navn}<span class="kun-skaermlaeser">, {String(i.fag).toLowerCase()}</span></h1>
+      </div>
+      {f.videotekst && (
+        <a class="billedtekst" href={vaerkAdresse(sprog, f.videolink)}>{f.videotekst}</a>
+      )}
+    </div>
+  </section>
+
+  <section class="afsnit">
+    <div class="ramme om">
+      {portraet && (
+        <div class="portraet">
+          <Image src={portraet} alt={`${t.portraet} ${i.navn}`} widths={[420, 640, 873]} sizes="(min-width: 900px) 38vw, 380px" />
+        </div>
+      )}
+      <div class="tekst">
+        <p class="ledetekst">{om.data.linje}</p>
+        <div class="valg">
+          <a class="pil" href={adresse(sprog, 'om')}>{t.omKristian}</a>
+          <a class="pil" href={adresse(sprog, 'kontakt')}>{t.kontakt}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="afsnit" style="padding-top:0">
+    <div class="ramme">
+      <div class="vhoved">
+        <h2 class="mellem">{t.vaerker}</h2>
+        <a class="pil" href={adresse(sprog, 'vaerker')}>{t.seAlleVaerker}</a>
+      </div>
+      <div class="vandring">
+        {alle.slice(0, 6).map((v) => <Vaerkkort vaerk={v} sprog={sprog} sizes="(min-width: 620px) 55vw, 92vw" />)}
+      </div>
+    </div>
+  </section>
+
+  {moerk && (
+    <section class="moerk" data-moerk>
+      <div class="ramme tofelt">
+        <div class="citat">
+          <p class="maerke">{moerk.data.titel}</p>
+          <blockquote>{moerk.data.citat}</blockquote>
+          <p class="kilde"><a href={moerk.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={moerk.data.kilde}>{moerk.data.kilde}</a></p>
+        </div>
+        {citatbillede && (
+          <figure>
+            <Image src={citatbillede} alt={`${i.navn} ${t.vedSisyfos}`} widths={[640, 1000, 1500]} sizes="(min-width: 900px) 45vw, 100vw" />
+          </figure>
+        )}
+      </div>
+    </section>
+  )}
+
+  {udmaerkelser.length > 0 && (
+    <section class="udmaerkelser">
+      <div class="ramme">
+        {udmaerkelser.map((u) => (
+          <p class="udmaerkelse">
+            {u.id === 'statens-kunstfond' && kunstfondlogo && (
+              <Image class="vandmaerke" src={kunstfondlogo} alt="Statens Kunstfond" widths={[120, 240]} sizes="80px" />
+            )}
+            <span class="maerke">{u.data.titel}</span>
+            {u.data.link
+              ? <a href={u.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={u.data.kilde}>{u.data.kilde}</a>
+              : <span>{u.data.kilde}</span>}
+          </p>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {(aabning || harEgenTekst) && (
+    <section class="afsnit">
+      <div class="ramme aabning">
+        <div class="citat">
+          {aabning && (
+            <>
+              <p class="maerke">{aabning.data.titel}</p>
+              <blockquote>{aabning.data.citat}</blockquote>
+              <p class="kilde">
+                <a href={aabning.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={aabning.data.kilde}>{aabning.data.kilde}</a>
+              </p>
+            </>
+          )}
+          {harEgenTekst && <div class="prosa egen"><EgenTekst /></div>}
+        </div>
+        {skitse && (
+          <figure class="skitse">
+            <Image src={skitse} alt={`${i.navn} ${t.lampebillede}`} widths={[640, 1000, 1500]} sizes="(min-width: 900px) 45vw, 100vw" />
+          </figure>
+        )}
+      </div>
+    </section>
+  )}
+
+</Side>
+
+<script>
+  // Lydknappen. Videoen starter altid uden lyd, ellers må den ikke starte af sig selv.
+  const knap = document.querySelector<HTMLButtonElement>('.lydknap');
+  const film = document.querySelector<HTMLVideoElement>('.helt video');
+  if (knap && film) {
+    knap.addEventListener('click', () => {
+      film.muted = !film.muted;
+      if (!film.muted && film.paused) film.play();
+      knap.setAttribute('aria-pressed', String(!film.muted));
+      knap.setAttribute('aria-label', (film.muted ? knap.dataset.til : knap.dataset.fra) ?? '');
+    });
+  }
+  // Hvis nogen har bedt om mindre bevægelse, står videoen stille på sit første billede.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); });
+  }
+</script>

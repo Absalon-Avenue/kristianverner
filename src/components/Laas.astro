@@ -3,9 +3,9 @@
 // når man scroller ned. Det kommer ud igen, når man er tilbage i toppen.
 import Logo from './Logo.astro';
 import { sti } from '../lib/sti';
-const { navn, tegnes = false, fast = false } = Astro.props;
+const { navn, tegnes = false, fast = false, hjem = sti('/'), hjemTekst = 'forside' } = Astro.props;
 ---
-<a class:list={['laas', { fast }]} href={sti('/')} aria-label={`${navn}, forside`}>
+<a class:list={['laas', { fast }]} href={hjem} aria-label={`${navn}, ${hjemTekst}`}>
   <span class="segl"><Logo tegnes={tegnes} /></span>
   <span class="tekst"><span class="navn">{navn}</span><span class="streg"></span></span>
 </a>

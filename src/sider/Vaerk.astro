@@ -1,0 +1,109 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Side from '../layouts/Side.astro';
+import { indstillinger, paaSprog } from '../lib/indhold';
+import { billederTil } from '../lib/billeder';
+import { sti } from '../lib/sti';
+import { ord, adresse, vaerkAdresse, alleSprog, statusTekst, kategoriTekst, type Sprog } from '../lib/sprog';
+
+// Siden for ét værk. Adresserne laves i src/pages/.../[slug].astro med vaerkSider() nedenfor.
+const { vaerk, forrige, naeste, sprog = 'da' as Sprog } = Astro.props;
+const t = ord(sprog);
+const paa = await paaSprog(vaerk, sprog, 'vaerker');
+const d = paa.data;
+const i = await indstillinger(sprog);
+const { Content, harTekst, tekstSprog } = paa;
+const kategori = d.kategori ? kategoriTekst(d.kategori, sprog) : '';
+const [stort, ...flere] = billederTil(vaerk.id);
+
+const med_aar = [d.titel, d.aar].filter(Boolean).join(', ');
+const alt = med_aar + (d.materiale ? `. ${d.materiale}` : '');
+const visPris = i.vis_priser === true && d.pris;
+const raekker = [
+  [t.aar, d.aar],
+  [t.materiale, d.materiale],
+  [t.maal, d.maal],
+  [t.vaegt, d.vaegt],
+  [t.pris, visPris ? d.pris : ''],
+  [t.status, d.status ? statusTekst(d.status, sprog) : ''],
+].filter(([, v]) => v);
+
+const delebillede = stort ? (await getImage({ src: stort, width: 1200, format: 'jpg' })).src : undefined;
+const punktum = (t: string) => (/[.!?]$/.test(t) ? t : `${t}.`);
+const beskrivelse = [d.kort, [kategori, d.materiale, d.maal].filter(Boolean).join(', '), `${t.vaerkAf} ${i.navn}`]
+  .filter(Boolean)
+  .map(punktum)
+  .join(' ')
+  .slice(0, 300);
+
+const data = {
+  '@context': 'https://schema.org',
+  '@type': 'VisualArtwork',
+  name: d.titel,
+  dateCreated: d.aar || undefined,
+  artform: kategori || undefined,
+  artMedium: d.materiale || undefined,
+  description: d.kort || undefined,
+  creator: { '@id': `${new URL(sti('/'), Astro.site).href}#kristian` },
+  image: delebillede ? new URL(delebillede, Astro.site).href : undefined,
+  url: new URL(Astro.url.pathname, Astro.site).href,
+};
+---
+<Side titel={`${med_aar} | ${i.navn}`} beskrivelse={beskrivelse} aktiv="vaerker" delebillede={delebillede} ekstraData={data} sprog={sprog} alternativer={alleSprog((s) => vaerkAdresse(s, vaerk.id))}>
+  <article>
+    <div class="ramme vtop">
+      <a class="tilbage" href={adresse(sprog, 'vaerker')}><span aria-hidden="true">←</span> {t.vaerker}</a>
+      <p class="maerke" style="margin-bottom:18px">{[kategori, d.aar].filter(Boolean).join(', ')}</p>
+      <h1 class="stor">{d.titel}</h1>
+      {d.kort && <p class="under">{d.kort}</p>}
+    </div>
+
+    {stort && (
+      <div class="vstort">
+        <Image src={stort} alt={alt} widths={[800, 1200, 1600, 2200]} sizes="100vw" loading="eager" />
+      </div>
+    )}
+
+    <div class="ramme afsnit" style="padding-bottom:clamp(48px,7vw,100px)">
+      <div class:list={['vkrop', { 'uden-tekst': !harTekst }]}>
+        {harTekst && <div class="prosa" lang={tekstSprog !== sprog ? tekstSprog : undefined}><Content /></div>}
+        <aside class="vside">
+          {raekker.length > 0 && (
+            <dl class="data">
+              {raekker.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+            </dl>
+          )}
+          <a class="knap" href={`${adresse(sprog, 'kontakt')}?vaerk=${encodeURIComponent(med_aar)}`} data-umami-event="Forespørgsel" data-umami-event-vaerk={vaerk.data.titel}>{t.spoergTilVaerket}</a>
+        </aside>
+      </div>
+    </div>
+
+    {flere.length > 0 && (
+      <div class="ramme" style="padding-bottom:clamp(60px,9vw,130px)">
+        <div class="vflere">
+          {flere.map((b, n) => (
+            <figure>
+              <Image src={b} alt={`${med_aar}, ${t.billede} ${n + 2}`} widths={[640, 1000, 1500]} sizes="(min-width: 620px) 46vw, 92vw" />
+            </figure>
+          ))}
+        </div>
+        {d.foto && <p class="fotokredit">{t.foto}: {d.foto}</p>}
+      </div>
+    )}
+
+    <div class="ramme">
+      <nav class="naeste" aria-label={t.flereVaerker}>
+        {forrige && (
+          <a href={vaerkAdresse(sprog, forrige.id)}>
+            <span class="maerke">{t.forrige}</span><span class="titel">{forrige.data.titel}</span>
+          </a>
+        )}
+        {naeste && (
+          <a class="frem" href={vaerkAdresse(sprog, naeste.id)}>
+            <span class="maerke">{t.naeste}</span><span class="titel">{naeste.data.titel}</span>
+          </a>
+        )}
+      </nav>
+    </div>
+  </article>
+</Side>

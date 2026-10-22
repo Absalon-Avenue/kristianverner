@@ -1,15 +1,21 @@
 ---
 import Side from '../layouts/Side.astro';
 import { indstillinger } from '../lib/indhold';
-import { sti } from '../lib/sti';
+import { adresse } from '../lib/sprog';
 const i = await indstillinger();
 ---
 <Side titel={`Siden findes ikke | ${i.firmanavn}`}>
   <section class="afsnit">
     <div class="ramme">
       <p class="maerke" style="margin-bottom:22px">404</p>
-      <h1 class="stor" style="margin-bottom:40px">Siden findes ikke</h1>
-      <a class="knap" href={sti('/vaerker/')}>Se værkerne</a>
+      <h1 class="stor" style="margin-bottom:24px">Siden findes ikke</h1>
+      <p class="ledetekst" lang="fr" style="margin:0">La page n’existe pas.</p>
+      <p class="ledetekst" lang="en" style="margin:0 0 40px">This page does not exist.</p>
+      <div class="valg">
+        <a class="knap" href={adresse('da', 'vaerker')}>Se værkerne</a>
+        <a class="pil" lang="fr" href={adresse('fr', 'vaerker')}>Voir les œuvres</a>
+        <a class="pil" lang="en" href={adresse('en', 'vaerker')}>See the works</a>
+      </div>
     </div>
   </section>
 </Side>
