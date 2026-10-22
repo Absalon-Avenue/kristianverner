@@ -47,6 +47,7 @@ const omtale = defineCollection({
     titel: fritekst,
     link: fritekst,
     citat: fritekst,
+    vaerk: fritekst,
     billede: fritekst,
     billedtekst: fritekst,
     foto: fritekst,

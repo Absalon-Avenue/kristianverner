@@ -1,8 +1,8 @@
 ---
 import { Image, getImage } from 'astro:assets';
 import Side from '../layouts/Side.astro';
-import { indstillinger, paaSprog } from '../lib/indhold';
-import { billederTil } from '../lib/billeder';
+import { indstillinger, paaSprog, omtaleListe } from '../lib/indhold';
+import { billederTil, billede } from '../lib/billeder';
 import { sti } from '../lib/sti';
 import { ord, adresse, vaerkAdresse, alleSprog, statusTekst, kategoriTekst, type Sprog } from '../lib/sprog';
 
@@ -14,6 +14,8 @@ const d = paa.data;
 const i = await indstillinger(sprog);
 const { Content, harTekst, tekstSprog } = paa;
 const kategori = d.kategori ? kategoriTekst(d.kategori, sprog) : '';
+// Omtale af netop dette værk med et billede fra artiklen, fx Bo Bedre. Vises med billedtekst, fotograf og link.
+const medBillede = (await omtaleListe(sprog)).filter((m) => m.data.vaerk === vaerk.id && m.data.billede && billede(m.data.billede));
 const [stort, ...flere] = billederTil(vaerk.id);
 
 const med_aar = [d.titel, d.aar].filter(Boolean).join(', ');
@@ -77,6 +79,23 @@ const data = {
         </aside>
       </div>
     </div>
+
+    {medBillede.map((m) => (
+      <div style="padding-bottom:clamp(60px,9vw,130px)">
+        <figure class="ramme omtalebillede">
+          <Image src={billede(m.data.billede)!} alt={m.data.billedtekst || m.data.kilde} widths={[800, 1200, 1800, 2400]} sizes="(min-width: 1320px) 1240px, 92vw" />
+          <figcaption>
+            {m.data.billedtekst && <span>{m.data.billedtekst}</span>}
+            <span class="kilde">
+              {m.data.foto && <>{t.foto}: {m.data.foto} / </>}
+              {m.data.link
+                ? <a href={m.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={m.data.kilde}>{m.data.kilde}{m.data.aar && `, ${m.data.aar}`}</a>
+                : <>{m.data.kilde}{m.data.aar && `, ${m.data.aar}`}</>}
+            </span>
+          </figcaption>
+        </figure>
+      </div>
+    ))}
 
     {flere.length > 0 && (
       <div class="ramme" style="padding-bottom:clamp(60px,9vw,130px)">

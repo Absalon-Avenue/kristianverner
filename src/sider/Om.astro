@@ -14,8 +14,6 @@ const { Content, harTekst, tekstSprog } = om;
 const portraet = billede('sider/portraet.jpg');
 // Omtale står i tidsrækkefølge: nyeste øverst, ældste nederst.
 const omtale = (await omtaleListe(sprog)).sort((a, b) => Number(b.data.aar || 0) - Number(a.data.aar || 0));
-// Omtale med et billede fra artiklen vises som et stort billede med billedtekst, fotograf og link til kilden.
-const medBillede = omtale.filter((m) => m.data.billede && billede(m.data.billede));
 ---
 <Side titel={o.titel} beskrivelse={o.beskrivelse} aktiv="om" sprog={sprog} alternativer={alleSprog((s) => adresse(s, 'om'))}>
   <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
@@ -34,23 +32,6 @@ const medBillede = omtale.filter((m) => m.data.billede && billede(m.data.billede
       </div>
     </div>
   </section>
-
-  {medBillede.map((m) => (
-    <section class="afsnit" style="padding-top:0">
-      <figure class="ramme omtalebillede">
-        <Image src={billede(m.data.billede)!} alt={m.data.billedtekst || m.data.kilde} widths={[800, 1200, 1800, 2400]} sizes="(min-width: 1320px) 1240px, 92vw" />
-        <figcaption>
-          {m.data.billedtekst && <span>{m.data.billedtekst}</span>}
-          <span class="kilde">
-            {m.data.foto && <>{t.foto}: {m.data.foto} / </>}
-            {m.data.link
-              ? <a href={m.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={m.data.kilde}>{m.data.kilde}{m.data.aar && `, ${m.data.aar}`}</a>
-              : <>{m.data.kilde}{m.data.aar && `, ${m.data.aar}`}</>}
-          </span>
-        </figcaption>
-      </figure>
-    </section>
-  ))}
 
   {(o.fakta?.length > 0 || omtale.length > 0) && (
     <section class="afsnit" style="padding-top:0">
