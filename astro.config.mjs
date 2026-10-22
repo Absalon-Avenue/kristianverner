@@ -44,6 +44,12 @@ const fjernUbrugteBilleder = {
 export default defineConfig({
   site: 'https://kristianverner.dk',
   trailingSlash: 'always',
+  // Gamle adresser, der stadig kan være delt eller stå hos Google, sender videre til den nye.
+  redirects: {
+    '/vaerker/blue-canvas-projects/': '/vaerker/hyperbaton/',
+    '/en/works/blue-canvas-projects/': '/en/works/hyperbaton/',
+    '/fr/oeuvres/blue-canvas-projects/': '/fr/oeuvres/hyperbaton/',
+  },
   integrations: [sitemap(), kunLokalt, fjernUbrugteBilleder],
   devToolbar: { enabled: false },
 });
