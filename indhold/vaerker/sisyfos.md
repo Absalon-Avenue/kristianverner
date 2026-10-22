@@ -9,6 +9,11 @@ vaegt: "ca. 450 kg"
 pris: "185.000 DKK ex. moms"
 status: "ledig"
 foto: ""
+# Billederne fra Kunsthal Charlottenborg
+fotografer:
+  "01": "David Stjernholm"
+  "02": "David Stjernholm"
+  "03": "David Stjernholm"
 fokus: ""
 raekkefoelge: 999
 kladde: false

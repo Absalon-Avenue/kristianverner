@@ -8,6 +8,8 @@ videolink: "sisyfos"
 moerk_titel: "Det kunstneriske"
 moerk_tekst: "Sisyfos-skulpturen er en poetisk skulptur, der både i metode, materiale, form og symbolik fortæller en historie om på en og samme tid at befinde sig på knivsæggen mellem balance og bevægelse."
 moerk_link: "sisyfos"
+# Fotografen bag billedet i det mørke felt. Tomt = vises ikke.
+moerk_foto: ""
 # Introen med logoet på sort skærm, første gang man åbner sitet. false = ingen intro.
 intro: true
 # Vis den lille lydknap på videoen. false = ingen knap.

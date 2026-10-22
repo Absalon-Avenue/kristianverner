@@ -1029,6 +1029,27 @@ a {
   letter-spacing: 0.08em;
   color: var(--daempet);
 }
+/* fotografens navn lige under et enkelt billede */
+.fotokredit.enkelt {
+  margin: 0;
+  padding-top: 10px;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  background: var(--bone);
+}
+.vstort .fotokredit.enkelt { padding-bottom: 2px; }
+/* fotografens navn lagt diskret nederst på et billede */
+.tofelt figure { position: relative; }
+.fotokredit.paa-billede {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
 .naeste {
   display: flex;
   justify-content: space-between;

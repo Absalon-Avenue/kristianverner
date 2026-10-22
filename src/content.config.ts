@@ -24,6 +24,8 @@ const vaerker = defineCollection({
       .transform((v) => (v ?? '').trim()),
     status: fritekst,
     foto: fritekst,
+    // Fotograf pr. billede, fx "01": "David Stjernholm". Står under det billede.
+    fotografer: z.record(z.string(), z.string()).nullish().transform((v) => v ?? {}),
     fokus: fritekst,
     raekkefoelge: z.number().default(100),
     kladde: z.boolean().default(false),

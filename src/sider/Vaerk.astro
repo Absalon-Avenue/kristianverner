@@ -17,6 +17,8 @@ const kategori = d.kategori ? kategoriTekst(d.kategori, sprog) : '';
 // Omtale af netop dette værk med et billede fra artiklen, fx Bo Bedre. Vises med billedtekst, fotograf og link.
 const medBillede = (await omtaleListe(sprog)).filter((m) => m.data.vaerk === vaerk.id && m.data.billede && billede(m.data.billede));
 const [stort, ...flere] = billederTil(vaerk.id);
+// Fotografens navn under et billede. Billede nr. 1 er det store øverst.
+const fotografTil = (nr: number) => vaerk.data.fotografer?.[String(nr).padStart(2, '0')] ?? '';
 
 const med_aar = [d.titel, d.aar].filter(Boolean).join(', ');
 const alt = med_aar + (d.materiale ? `. ${d.materiale}` : '');
@@ -63,6 +65,7 @@ const data = {
     {stort && (
       <div class="vstort">
         <Image src={stort} alt={alt} widths={[800, 1200, 1600, 2200]} sizes="100vw" loading="eager" />
+        {fotografTil(1) && <p class="ramme fotokredit enkelt">{t.foto}: {fotografTil(1)}</p>}
       </div>
     )}
 
@@ -103,6 +106,7 @@ const data = {
           {flere.map((b, n) => (
             <figure>
               <Image src={b} alt={`${med_aar}, ${t.billede} ${n + 2}`} widths={[640, 1000, 1500]} sizes="(min-width: 620px) 46vw, 92vw" />
+              {fotografTil(n + 2) && <figcaption class="fotokredit enkelt">{t.foto}: {fotografTil(n + 2)}</figcaption>}
             </figure>
           ))}
         </div>
