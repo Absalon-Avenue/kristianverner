@@ -2,7 +2,7 @@
 // Fra værkstedet: en løbende dagbog fra værkstedet med billeder, film og Kristians egne ord. Nyeste øverst.
 import { Image } from 'astro:assets';
 import Side from '../layouts/Side.astro';
-import { indstillinger, vaerkstedOpslag, vaerkerPaaSprog } from '../lib/indhold';
+import { indstillinger, vaerkstedOpslag, vaerkerPaaSprog, side, paaSprog } from '../lib/indhold';
 import { billederTil } from '../lib/billeder';
 import { sti } from '../lib/sti';
 import { ord, adresse, vaerkAdresse, alleSprog, datoTekst, type Sprog } from '../lib/sprog';
@@ -11,6 +11,7 @@ const { sprog = 'da' as Sprog } = Astro.props;
 const t = ord(sprog);
 const i = await indstillinger(sprog);
 const opslag = await vaerkstedOpslag(sprog);
+const sidetekst = (await paaSprog(await side('vaerksted'), sprog, 'sider')).data as Record<string, any>;
 const vaerker = await vaerkerPaaSprog(sprog);
 const vaerkTitel = (id: string) => vaerker.find((v) => v.id === id)?.data.titel ?? '';
 ---
@@ -22,7 +23,8 @@ const vaerkTitel = (id: string) => vaerker.find((v) => v.id === id)?.data.titel 
 >
   <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
     <div class="ramme">
-      <h1 class="stor" style="margin-bottom:clamp(44px,7vw,100px)">{t.vaerksted}</h1>
+      <h1 class="stor" style={`margin-bottom:${sidetekst.linje ? '26px' : 'clamp(44px,7vw,100px)'}`}>{t.vaerksted}</h1>
+      {sidetekst.linje && <p class="ledetekst" style="max-width:40ch;margin:0 0 clamp(44px,7vw,100px)">{sidetekst.linje}</p>}
       <div class="dagbog">
         {opslag.map((o) => {
           const billeder = billederTil(`vaerksted/${o.id}`);
