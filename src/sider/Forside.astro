@@ -17,7 +17,8 @@ const f = forside.data as Record<string, any>;
 const alle = await vaerkerPaaSprog(sprog);
 const omtale = await omtaleListe(sprog);
 const citater = omtale.filter((o) => o.data.forside && o.data.citat);
-const [aabning, moerk] = citater;
+const [aabning] = citater;
+// Det mørke felt med billedet af Kristian ved Sisyfos. Teksten står i indhold/sider/forside.md (moerk_titel, moerk_tekst, moerk_link).
 // Priser og legater uden citat står som en kort linje mellem de to sidste felter.
 const udmaerkelser = omtale.filter((o) => o.data.forside && !o.data.citat);
 
@@ -106,13 +107,13 @@ const kunstfondlogo = billede('sider/statens-kunstfond.png');
     </div>
   </section>
 
-  {moerk && (
+  {f.moerk_tekst && (
     <section class="moerk" data-moerk>
       <div class="ramme tofelt">
         <div class="citat">
-          <p class="maerke">{moerk.data.titel}</p>
-          <blockquote>{moerk.data.citat}</blockquote>
-          <p class="kilde"><a href={moerk.data.link} rel="noopener" data-umami-event="Omtale" data-umami-event-kilde={moerk.data.kilde}>{moerk.data.kilde}</a></p>
+          {f.moerk_titel && <p class="maerke">{f.moerk_titel}</p>}
+          <p class="lang">{f.moerk_tekst}</p>
+          {f.moerk_link && <p class="kilde"><a href={vaerkAdresse(sprog, f.moerk_link)}>{alle.find((v) => v.id === f.moerk_link)?.data.titel ?? f.moerk_link}</a></p>}
         </div>
         {citatbillede && (
           <figure>

@@ -784,6 +784,17 @@ a {
 .moerk .maerke {
   color: var(--messinglys);
 }
+/* Kristians egen tekst i det mørke felt: samme stil som citaterne, men lidt mindre, fordi den er længere */
+.moerk .citat .lang {
+  margin: 26px 0 0;
+  max-width: 30ch;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(21px, 2.2vw, 31px);
+  line-height: 1.34;
+  letter-spacing: -0.012em;
+  color: #fff;
+}
 .moerk .citat blockquote {
   color: #fff;
   max-width: 21ch;
