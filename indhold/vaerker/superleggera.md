@@ -1,5 +1,5 @@
 ---
-titel: "Spejder"
+titel: "Superleggera"
 aar: 2023
 kategori: "Lysværk"
 kort: "Håndlavet lysværk i messing og kobber, kinetisk effekt."
