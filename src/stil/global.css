@@ -687,6 +687,35 @@ a {
 .vkort .slide:hover img {
   transform: scale(1.03);
 }
+/* blød overtoning mellem billederne (værker med glider: true) */
+.vkort.toning .spor {
+  display: grid;
+  overflow: hidden;
+}
+.vkort.toning .slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.vkort.toning .slide.aktiv {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+.vkort.toning .slide img {
+  transform: scale(1.06);
+  transition: transform 7s cubic-bezier(0.2, 0, 0.2, 1);
+}
+.vkort.toning .slide.aktiv img {
+  transform: scale(1);
+}
+.vkort.toning .blad,
+.vkort.toning .prikker { z-index: 2; }
+@media (prefers-reduced-motion: reduce) {
+  .vkort.toning .slide,
+  .vkort.toning .slide img { transition: none; transform: none; }
+}
 .vkort .blad {
   position: absolute;
   top: 50%;

@@ -2,6 +2,7 @@
   // Styrer alle billedkarruseller på siden. Én gang pr. side.
   const ro = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll<HTMLElement>('[data-karrusel]').forEach((kort) => {
+    if (kort.hasAttribute('data-glider')) return toning(kort);
     const spor = kort.querySelector<HTMLElement>('.spor')!;
     const prikker = [...kort.querySelectorAll<HTMLElement>('.prikker span')];
     const antal = prikker.length;
@@ -14,21 +15,43 @@
     let vent = 0;
     spor.addEventListener('scroll', () => { cancelAnimationFrame(vent); vent = requestAnimationFrame(marker); }, { passive: true });
     marker();
+  });
 
-    // Billederne glider selv videre, når kortet har været på skærmen et par sekunder.
-    // Kun for værker med `glider: true`. Det stopper, mens man peger på kortet eller selv bladrer,
-    // og hvis man har bedt om mindre bevægelse.
-    if (ro || !kort.hasAttribute('data-glider')) return;
-    let synlig = false, holdt = false, timer = 0;
+  // Værker med `glider: true`: billederne toner blødt over i hinanden, mens det viste billede
+  // langsomt kommer en anelse tættere på. Det sker af sig selv, når kortet har været på skærmen
+  // et par sekunder. Pilene, prikkerne og et stryg med fingeren virker stadig.
+  function toning(kort: HTMLElement) {
+    kort.classList.add('toning');
+    const slides = [...kort.querySelectorAll<HTMLElement>('.slide')];
+    const prikker = [...kort.querySelectorAll<HTMLElement>('.prikker span')];
+    const antal = slides.length;
+    let aktiv = 0, synlig = false, timer = 0;
+    const vis = (i: number) => {
+      aktiv = (i + antal) % antal;
+      slides.forEach((s, n) => {
+        const er = n === aktiv;
+        s.classList.toggle('aktiv', er);
+        s.setAttribute('aria-hidden', er ? 'false' : 'true');
+        s.tabIndex = er ? 0 : -1;
+      });
+      prikker.forEach((p, n) => p.classList.toggle('aktiv', n === aktiv));
+    };
     const naeste = () => {
       clearTimeout(timer);
-      if (!synlig || holdt || document.hidden) return;
-      timer = window.setTimeout(() => { if (synlig && !holdt) gaaTil(nu() + 1); naeste(); }, 3000 + Math.random() * 800);
+      if (ro || !synlig || document.hidden) return;
+      timer = window.setTimeout(() => { vis(aktiv + 1); naeste(); }, 4200);
     };
-    new IntersectionObserver(([e]) => { synlig = e.intersectionRatio > 0.6; naeste(); }, { threshold: [0, 0.6, 1] }).observe(kort);
-    kort.addEventListener('pointerenter', () => { holdt = true; clearTimeout(timer); });
-    kort.addEventListener('pointerleave', () => { holdt = false; naeste(); });
-    spor.addEventListener('touchstart', () => { holdt = true; clearTimeout(timer); window.setTimeout(() => { holdt = false; naeste(); }, 8000); }, { passive: true });
+    const selv = (i: number) => { vis(i); naeste(); };
+    kort.querySelector('.tilbage')?.addEventListener('click', () => selv(aktiv - 1));
+    kort.querySelector('.frem')?.addEventListener('click', () => selv(aktiv + 1));
+    let x0 = 0;
+    kort.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    kort.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) selv(aktiv + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+    new IntersectionObserver(([e]) => { synlig = e.intersectionRatio > 0.5; naeste(); }, { threshold: [0, 0.5, 1] }).observe(kort);
     document.addEventListener('visibilitychange', naeste);
-  });
+    vis(0);
+  }
 </script>
