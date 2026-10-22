@@ -615,6 +615,37 @@ a {
   padding-bottom: 4px;
 }
 
+/* ---------- billede fra en omtale, fx Bo Bedre ---------- */
+.omtalebillede {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.omtalebillede img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.omtalebillede figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 30px;
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--tekst);
+}
+.omtalebillede .kilde {
+  font-size: 12.5px;
+  color: var(--daempet);
+}
+.omtalebillede .kilde a {
+  color: inherit;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--linje);
+}
+
 /* ---------- værker ---------- */
 .vhoved {
   display: flex;
