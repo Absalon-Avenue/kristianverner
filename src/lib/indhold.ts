@@ -88,3 +88,11 @@ export async function vaerkSider(sprog: Sprog) {
     props: { vaerk: danske[n], forrige: alle[n - 1] ?? null, naeste: alle[n + 1] ?? null, sprog },
   }));
 }
+
+// Opslagene fra værkstedet, nyeste først, på det valgte sprog.
+export async function vaerkstedOpslag(sprog: Sprog) {
+  const alle = (await getCollection('vaerksted'))
+    .filter((o) => !o.data.kladde)
+    .sort((a, b) => String(b.data.dato || b.id).localeCompare(String(a.data.dato || a.id)));
+  return Promise.all(alle.map(async (o) => ({ id: o.id, ...(await paaSprog(o, sprog, 'vaerksted')) })));
+}

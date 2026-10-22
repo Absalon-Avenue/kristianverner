@@ -11,16 +11,24 @@ export const SPROGNAVN: Record<Sprog, string> = { fr: 'Français', en: 'English'
 export const KORT: Record<Sprog, string> = { fr: 'FR', en: 'EN', da: 'DA' };
 export const LOCALE: Record<Sprog, string> = { da: 'da_DK', en: 'en_GB', fr: 'fr_FR' };
 
-export type Sidenavn = 'forside' | 'vaerker' | 'om' | 'kontakt';
+export type Sidenavn = 'forside' | 'vaerker' | 'om' | 'kontakt' | 'vaerksted';
 const ADRESSER: Record<Sidenavn, Record<Sprog, string>> = {
   forside: { da: '/', en: '/en/', fr: '/fr/' },
   vaerker: { da: '/vaerker/', en: '/en/works/', fr: '/fr/oeuvres/' },
   om: { da: '/om/', en: '/en/about/', fr: '/fr/a-propos/' },
   kontakt: { da: '/kontakt/', en: '/en/contact/', fr: '/fr/contact/' },
+  vaerksted: { da: '/vaerksted/', en: '/en/studio/', fr: '/fr/atelier/' },
 };
 
 export const adresse = (sprog: Sprog, side: Sidenavn) => sti(ADRESSER[side][sprog]);
 export const vaerkAdresse = (sprog: Sprog, id: string) => sti(`${ADRESSER.vaerker[sprog]}${id}/`);
+
+// Datoer skrives på sidens sprog, fx "22. oktober 2026", "22 October 2026", "22 octobre 2026".
+export const datoTekst = (dato: string, sprog: Sprog) => {
+  const d = new Date(`${dato}T12:00:00`);
+  if (isNaN(d.getTime())) return dato;
+  return d.toLocaleDateString({ da: 'da-DK', en: 'en-GB', fr: 'fr-FR' }[sprog], { day: 'numeric', month: 'long', year: 'numeric' });
+};
 
 // Den samme side på alle tre sprog. Bruges til sprogvalget og til at fortælle Google om de andre sprog.
 export const alleSprog = (lav: (s: Sprog) => string) =>
@@ -28,6 +36,10 @@ export const alleSprog = (lav: (s: Sprog) => string) =>
 
 const ORD = {
   da: {
+    vaerksted: 'Fra værkstedet',
+    vaerkstedBeskrivelse: (navn: string) => `Et kig ind på værkstedet hos ${navn}: arbejdet, materialerne og det, der er på vej.`,
+    seVaerkstedet: 'Se mere fra værkstedet',
+    nytFraVaerkstedet: 'Nyt fra værkstedet',
     vaerker: 'Værker',
     om: 'Om',
     kontakt: 'Kontakt',
@@ -77,6 +89,10 @@ const ORD = {
     takStandard: 'Tak for din besked.',
   },
   en: {
+    vaerksted: 'From the studio',
+    vaerkstedBeskrivelse: (navn: string) => `A look inside the studio of ${navn}: the work, the materials and what is on its way.`,
+    seVaerkstedet: 'More from the studio',
+    nytFraVaerkstedet: 'New from the studio',
     vaerker: 'Works',
     om: 'About',
     kontakt: 'Contact',
@@ -125,6 +141,10 @@ const ORD = {
     takStandard: 'Thank you for your message.',
   },
   fr: {
+    vaerksted: 'À l’atelier',
+    vaerkstedBeskrivelse: (navn: string) => `Un regard dans l’atelier de ${navn} : le travail, les matériaux et ce qui se prépare.`,
+    seVaerkstedet: 'Plus d’images de l’atelier',
+    nytFraVaerkstedet: 'Nouvelles de l’atelier',
     vaerker: 'Œuvres',
     om: 'À propos',
     kontakt: 'Contact',

@@ -7,6 +7,7 @@ import Laas from '../components/Laas.astro';
 import Lys from '../components/Lys.astro';
 import Tommelmenu from '../components/Tommelmenu.astro';
 import Karrusel from '../components/Karrusel.astro';
+import { getCollection } from 'astro:content';
 import { indstillinger } from '../lib/indhold';
 import { sti } from '../lib/sti';
 import { ord, adresse as sideAdresse, LOCALE, SPROGLISTE, SPROGNAVN, type Sprog } from '../lib/sprog';
@@ -14,6 +15,8 @@ import { ord, adresse as sideAdresse, LOCALE, SPROGLISTE, SPROGNAVN, type Sprog 
 // sprog: sidens sprog. alternativer: den samme side på de andre sprog, fx { fr: '/fr/', en: '/en/', da: '/' }.
 const { titel, beskrivelse = '', overVideo = false, aktiv = '', delebillede, ekstraData, sprog = 'da' as Sprog, alternativer } = Astro.props;
 const i = await indstillinger(sprog);
+// Linket til værkstedet vises kun, når der er mindst ét opslag.
+const harVaerksted = (await getCollection('vaerksted')).some((o) => !o.data.kladde);
 const t = ord(sprog);
 const adresse = new URL(Astro.url.pathname, Astro.site).href;
 const rod = new URL(sti('/'), Astro.site).href;
@@ -113,7 +116,10 @@ const menu = [
 
     <footer class="bund">
       <div class="ramme raekke">
-        <Laas navn={i.firmanavn} hjem={sideAdresse(sprog, 'forside')} hjemTekst={t.forside} />
+        <div class="bundvenstre">
+          <Laas navn={i.firmanavn} hjem={sideAdresse(sprog, 'forside')} hjemTekst={t.forside} />
+          {harVaerksted && <a class="bundlink" href={sideAdresse(sprog, 'vaerksted')}>{t.vaerksted}</a>}
+        </div>
         <div class="bundhoejre">
         <nav class="bundsprog" aria-label={t.vaelgSprog}>
           {SPROGLISTE.map((s) => (

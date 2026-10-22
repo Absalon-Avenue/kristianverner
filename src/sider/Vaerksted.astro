@@ -1,0 +1,53 @@
+---
+// Fra værkstedet: en løbende dagbog fra værkstedet med billeder, film og Kristians egne ord. Nyeste øverst.
+import { Image } from 'astro:assets';
+import Side from '../layouts/Side.astro';
+import { indstillinger, vaerkstedOpslag, vaerkerPaaSprog } from '../lib/indhold';
+import { billederTil } from '../lib/billeder';
+import { sti } from '../lib/sti';
+import { ord, adresse, vaerkAdresse, alleSprog, datoTekst, type Sprog } from '../lib/sprog';
+
+const { sprog = 'da' as Sprog } = Astro.props;
+const t = ord(sprog);
+const i = await indstillinger(sprog);
+const opslag = await vaerkstedOpslag(sprog);
+const vaerker = await vaerkerPaaSprog(sprog);
+const vaerkTitel = (id: string) => vaerker.find((v) => v.id === id)?.data.titel ?? '';
+---
+<Side
+  titel={`${t.vaerksted} | ${i.firmanavn}`}
+  beskrivelse={t.vaerkstedBeskrivelse(i.navn)}
+  sprog={sprog}
+  alternativer={alleSprog((s) => adresse(s, 'vaerksted'))}
+>
+  <section class="afsnit" style="padding-top:clamp(30px,5vw,80px)">
+    <div class="ramme">
+      <h1 class="stor" style="margin-bottom:clamp(44px,7vw,100px)">{t.vaerksted}</h1>
+      <div class="dagbog">
+        {opslag.map((o) => {
+          const billeder = billederTil(`vaerksted/${o.id}`);
+          const [foerste, ...resten] = billeder;
+          return (
+            <article class="opslag" id={o.id}>
+              <p class="maerke dato">{o.data.dato ? datoTekst(String(o.data.dato), sprog) : ''}</p>
+              <div class="indhold">
+                {o.data.video ? (
+                  <video class="hoved" src={sti(`/video/${o.data.video}.mp4`)} poster={sti(`/video/${o.data.video}.jpg`)} autoplay muted loop playsinline preload="metadata"></video>
+                ) : foerste && (
+                  <Image class="hoved" src={foerste} alt="" widths={[800, 1200, 1800]} sizes="(min-width: 900px) 70vw, 92vw" />
+                )}
+                {(o.data.video ? billeder : resten).length > 0 && (
+                  <div class="smaa">
+                    {(o.data.video ? billeder : resten).map((b) => <Image src={b} alt="" widths={[480, 800]} sizes="(min-width: 900px) 22vw, 45vw" />)}
+                  </div>
+                )}
+                {o.harTekst && <div class="prosa" lang={o.tekstSprog !== sprog ? o.tekstSprog : undefined}><o.Content /></div>}
+                {o.data.vaerk && vaerkTitel(String(o.data.vaerk)) && <a class="pil" href={vaerkAdresse(sprog, String(o.data.vaerk))}>{vaerkTitel(String(o.data.vaerk))}</a>}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</Side>

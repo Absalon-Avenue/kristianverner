@@ -69,4 +69,16 @@ const oversat = defineCollection({
   schema: z.looseObject({}),
 });
 
-export const collections = { vaerker, sider, omtale, oversat };
+// Fra værkstedet: én fil pr. opslag i indhold/vaerksted/. Filnavnet begynder med datoen, fx 2026-10-22-marmor.md.
+// Billederne ligger i billeder/vaerksted/<filnavn>/. Teksten er Kristians egne ord.
+const vaerksted = defineCollection({
+  loader: glob({ pattern: '*.md', base: './indhold/vaerksted' }),
+  schema: z.object({
+    dato: fritekst,
+    vaerk: fritekst,
+    video: fritekst,
+    kladde: z.boolean().default(false),
+  }),
+});
+
+export const collections = { vaerker, sider, omtale, oversat, vaerksted };

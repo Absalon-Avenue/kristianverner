@@ -58,6 +58,17 @@ Sitet findes på dansk (`/`), engelsk (`/en/`) og fransk (`/fr/`). Sprogene vise
   oversættes ikke, undtagen beskrivende titler som Bestillingsværk.
 - Siderne selv ligger i `src/sider/`. Filerne i `src/pages/` laver kun adresserne på de tre sprog.
 
+## Fra værkstedet
+
+En løbende dagbog fra værkstedet på `/vaerksted/` (engelsk `/en/studio/`, fransk `/fr/atelier/`). Nyeste opslag øverst.
+Linket står i bunden af hver side og vises først, når der er mindst ét opslag.
+
+- Ét opslag = én fil i `indhold/vaerksted/`, fx `2026-10-22-marmor.md`, med `dato: "2026-10-22"`, evt. `vaerk: "sisyfos"`
+  (link til værket) og evt. `video: "navn"` (fil i `public/video/`). Teksten under stregen er Kristians egne ord, ordret.
+- Billederne ligger i `billeder/vaerksted/<filnavn uden .md>/01.jpg, 02.jpg ...`. Det første er det store.
+- Oversæt teksten til `indhold/oversat/en/vaerksted/` og `indhold/oversat/fr/vaerksted/` med samme filnavn.
+- Sender Kristian billeder og et par linjer "til værkstedet", så laver du et nyt opslag med dagens dato.
+
 ## Hvor tingene ligger
 
 | Mappe | Hvad |
